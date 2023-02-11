@@ -80,6 +80,38 @@ static int cmd_info(char *args){
   return 0;
 }
 
+static int cmd_w(char *args){
+  if(args == NULL){
+    Log("Usage: w EXPR(for example: w *0x200)");
+  }
+  else{
+    /*TODO: Implement the function of watchpoint*/
+  }
+  return 0;
+}
+
+static int cmd_x(char *args){
+  return 0;
+}
+
+static int cmd_p(char *args){
+  if(args == NULL){
+    Log("Usage: p EXPR(for example: p $a0 + 1)");
+  }
+  else{
+    bool success;
+    word_t r = expr(args, &success);
+    if(success){
+      printf(FMT_WORD "\n", r);
+    }
+    else{
+      printf("Wrong Expr\n");
+    }
+    return 0;
+  }
+  return 0;
+}
+
 static int cmd_help(char *args);
 
 static struct {
@@ -90,9 +122,11 @@ static struct {
   { "help", "Display information about all supported commands", cmd_help },
   { "c", "Continue the execution of the program", cmd_c },
   { "q", "Exit NEMU", cmd_q },
-  { "si", "step" , cmd_si},
-  {"info", "info r: reg values; info w:show watch point state", cmd_info},
-
+  { "si", "Step(usage: si [N]/si)" , cmd_si},
+  {"info", "Information(usage: info r: reg values; info w:show watch point state)", cmd_info},
+  {"w", "Set watchpoint(usage: w EXPR)", cmd_w},
+  {"x", "Scan memory(usage: x N EXPR)", cmd_x},
+  {"p", "Evaluate the value of EXPR(usage: p EXPR)", cmd_p},
   /* TODO: Add more commands */
 
 };

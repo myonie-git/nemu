@@ -26,7 +26,7 @@ const char *regs[] = {
 void isa_reg_display() {
   //display rv32 regs
   for(int i = 0; i<32; i++){
-    printf("%4s(r%02d): " FMT_WORD " ", regs[i], i, cpu.gpr[i]);
+    printf("%4s: " FMT_WORD " ", regs[i], cpu.gpr[i]);
     if (i % 4 == 3) {
       printf("\n");
     }
