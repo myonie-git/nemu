@@ -136,13 +136,13 @@ static bool make_token(char *e) {
 
 word_t expr(char *e, bool *success) {
   if (!make_token(e)) {
-    assert(0);
+    //assert(0);
     *success = false;
     return 0;
   }
-
+  
   /* TODO: Insert codes to evaluate the expression. */
   
-
+  *success = true;
   return 0;
 }
