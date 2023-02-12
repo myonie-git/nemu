@@ -21,7 +21,7 @@
 #include <regex.h>
 
 enum {
-  TK_NOTYPE = 256, TK_EQ, TK_NUM, TK_NEQ, TK_AND, TK_OR, TK_REG
+  TK_NOTYPE = 256, TK_EQ, TK_NUM, TK_NEQ, TK_AND, TK_OR, TK_REG, TK_NEG, TK_PTR
 
   /* TODO: Add more token types */
 
@@ -112,7 +112,7 @@ static bool make_token(char *e) {
           case TK_NUM:
           case TK_REG: //change into num
             sprintf(tokens[nr_token].str, "%.*s", substr_len, substr_start);
-            assert(substr_len < 32); //stack overflow
+            //assert(substr_len < 32); //stack overflow
             printf("%s\n",tokens[nr_token].str);
           default: 
             tokens[nr_token].type = rules[i].token_type;
@@ -144,10 +144,29 @@ word_t expr(char *e, bool *success) {
   
   /* TODO: Insert codes to evaluate the expression. */
   for(int i = 0; i<nr_token; i++){
-    
+    //detect the inv('-') and pointer('*') token
+      if(i == 0){
+        if(tokens[i].type == '-'){
+          tokens[i].type = TK_NEG;
+        }
+        else if(tokens[i].type == '*'){
+          tokens[i].type = TK_PTR;
+        }
+      }
+      else{
+        int pre_token = tokens[i-1].type;
+        if(tokens[i].type == '-'){
+          if(pre_token != ')' && pre_token != TK_NUM && pre_token != TK_REG){
+            tokens[i].type = TK_NEG;
+          }
+        } 
+        else if(tokens[i].type == '*'){
+          if(pre_token != ')' && pre_token != TK_NUM && pre_token != TK_REG){
+            tokens[i].type = TK_PTR;
+          }
+        }
+      }
   }
-
-
   *success = true;
   return 0;
 }
