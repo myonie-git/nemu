@@ -144,6 +144,8 @@ word_t eval(int p, int q, bool *success){
     word_t val = 0;
     switch(tokens[p].type){
       case TK_REG: 
+        isa_reg_str2val(tokens[p].str + 1, success);
+        if(!*success){return 0;}
         break;
       case TK_NUM: 
         val = strtoul(tokens[p].str, NULL, 0);
