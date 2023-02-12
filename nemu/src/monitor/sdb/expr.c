@@ -134,6 +134,13 @@ static bool make_token(char *e) {
   return true;
 }
 
+/*
+static int find_dominated_op(int p, int q, bool *success){
+  //int i;
+  return 0;
+}
+*/
+
 word_t eval(int p, int q, bool *success){
   if(p > q){
     *success = false;
@@ -161,6 +168,7 @@ word_t eval(int p, int q, bool *success){
       return eval(p+1, q-1, success);
     } 
     else{
+      //find op
       
     }
   }
