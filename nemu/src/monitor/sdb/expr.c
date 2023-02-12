@@ -112,10 +112,11 @@ static bool make_token(char *e) {
           case TK_NUM:
           case TK_REG: //change into num
             sprintf(tokens[nr_token].str, "%.*s", substr_len, substr_start);
+            assert(substr_len < 32); //stack overflow
             printf("%s\n",tokens[nr_token].str);
           default: 
             tokens[nr_token].type = rules[i].token_type;
-            nr_token++;
+            nr_token++; 
             break;
           
         }
@@ -142,7 +143,11 @@ word_t expr(char *e, bool *success) {
   }
   
   /* TODO: Insert codes to evaluate the expression. */
-  
+  for(int i = 0; i<nr_token; i++){
+    
+  }
+
+
   *success = true;
   return 0;
 }
