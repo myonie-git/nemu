@@ -156,7 +156,13 @@ word_t eval(int p, int q, bool *success){
     return val;
   }
   else{
-
+    //multi token
+    if(tokens[p].type == '(' && tokens[q].type == ')'){
+      return eval(p+1, q-1, success);
+    } 
+    else{
+      
+    }
   }
   return 0;
 }
