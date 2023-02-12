@@ -134,12 +134,33 @@ static bool make_token(char *e) {
   return true;
 }
 
-/*
+
 static int find_dominated_op(int p, int q, bool *success){
-  //int i;
+  int brackets_num = 0;
+  for(int i = p; i <= q; i++){
+    switch(tokens[i].type){
+      case TK_REG: case TK_NUM: break;
+      case '(':
+        brackets_num ++;
+        break;
+      case ')':
+        brackets_num --;
+        if(brackets_num < 0){
+            *success = false;
+            return 0;
+        }
+        break;
+      default:
+        if(brackets_num == 0){
+          
+        }
+        break;
+    }
+  }
+
   return 0;
 }
-*/
+
 
 word_t eval(int p, int q, bool *success){
   if(p > q){
@@ -169,7 +190,9 @@ word_t eval(int p, int q, bool *success){
     } 
     else{
       //find op
-      
+      find_dominated_op(p, q, success);
+      if(!*success){return 0;}
+
     }
   }
   return 0;
