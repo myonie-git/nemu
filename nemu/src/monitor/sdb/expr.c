@@ -134,6 +134,30 @@ static bool make_token(char *e) {
   return true;
 }
 
+word_t eval(int p, int q, bool *success){
+  if(p > q){
+    *success = false;
+    return 0;
+  }
+  else if(p == q){
+    //single token 
+    word_t val = 0;
+    switch(tokens[p].type){
+      case TK_REG: 
+        break;
+      case TK_NUM: 
+        val = strtoul(tokens[p].str, NULL, 0);
+        break;
+      default: assert(0);
+    }
+    *success = true;
+    return val;
+  }
+  else{
+
+  }
+  return 0;
+}
 
 word_t expr(char *e, bool *success) {
   if (!make_token(e)) {
@@ -167,6 +191,6 @@ word_t expr(char *e, bool *success) {
         }
       }
   }
-  *success = true;
-  return 0;
+  return eval(0, nr_token-1, success);
+  
 }
