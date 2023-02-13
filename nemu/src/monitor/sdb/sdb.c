@@ -91,7 +91,7 @@ static int cmd_w(char *args){
 }
 
 static int cmd_x(char *args){
-  char *arg = strtok(args, " ");
+  char *arg = strtok(NULL, " ");
   char *arg1 = strtok(NULL, " ");
   printf("%s", arg1);
   if(arg == NULL){
