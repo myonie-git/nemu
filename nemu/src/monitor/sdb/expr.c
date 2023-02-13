@@ -14,6 +14,7 @@
 ***************************************************************************************/
 
 #include <isa.h>
+#include <memory/paddr.h>
 
 /* We use the POSIX regex functions to process regular expressions.
  * Type 'man regex' for more information about POSIX regex functions.
@@ -233,7 +234,7 @@ word_t eval(int p, int q, bool *success){
         switch(op_type){
           case '!': return !(val);
           case TK_NEG: return -(val);
-          case TK_PTR: TODO(); return 0;
+          case TK_PTR: paddr_read(val, 4); return 0;
         }
       }
       
