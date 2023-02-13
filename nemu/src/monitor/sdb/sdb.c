@@ -91,7 +91,7 @@ static int cmd_w(char *args){
 }
 
 static int cmd_x(char *args){
-  char *arg = strtok(NULL, " ");
+  char *arg = strtok(args, " ");
   char *arg1 = strtok(NULL, " ");
   if(arg == NULL){
     Log("Usage: x N $EXPR(for example: x 10 $esp)");
