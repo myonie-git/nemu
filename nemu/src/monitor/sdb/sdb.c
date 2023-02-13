@@ -91,17 +91,15 @@ static int cmd_w(char *args){
 }
 
 static int cmd_x(char *args){
-  char *arg = strtok(NULL, " ");
   char *arg1 = strtok(NULL, " ");
   printf("%s", arg1);
-  if(arg == NULL){
+  if(arg1 == NULL){
     Log("Usage: x N $EXPR(for example: x 10 $esp)");
   }
-  if(arg1 == NULL){
-    Log("xxx");
-    return 0;
+  else{
+    
   }
-
+  
   return 0;
 }
 
