@@ -97,7 +97,15 @@ static int cmd_x(char *args){
     Log("Usage: x N $EXPR(for example: x 10 $esp)");
   }
   else{
-    
+    int n;
+    word_t addr;
+    int i;
+    sscanf(arg1, "%d", &n);
+    bool successl
+    addr = expr(arg + strlen(arg) + 1, &success);
+    if(success){
+      
+    }
   }
   
   return 0;
