@@ -236,7 +236,6 @@ word_t eval(int p, int q, bool *success){
           case TK_PTR: TODO(); return 0;
         }
      }
-      
     }
   }
   return 0;
