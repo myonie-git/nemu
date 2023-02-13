@@ -118,7 +118,6 @@ static bool make_token(char *e) {
             tokens[nr_token].type = rules[i].token_type;
             nr_token++; 
             break;
-          
         }
 
         break;
@@ -135,8 +134,28 @@ static bool make_token(char *e) {
 }
 
 
+static int op_priority(int op){
+  switch(op){
+    case '!': case TK_NEG: case TK_PTR: return 2;
+    case '*': case '/': case '%': return 3;
+    case '+': case '-': return 4;
+    case TK_EQ: case TK_NEQ: return 7;
+    case TK_AND: return 11;
+    case TK_OR: return 12;
+    default: assert(0);
+  }
+}
+
+
+static int op_priority_cmp(int op1, int op2){
+  return op_priority(op1) - op_priority(op2);
+}
+
+
+
 static int find_dominated_op(int p, int q, bool *success){
   int brackets_num = 0;
+  int dominated_op_position = -1;
   for(int i = p; i <= q; i++){
     switch(tokens[i].type){
       case TK_REG: case TK_NUM: break;
@@ -152,14 +171,26 @@ static int find_dominated_op(int p, int q, bool *success){
         break;
       default:
         if(brackets_num == 0){
-          
+          //traverse the search to find the highest priority
+          if(dominated_op_position == -1){
+            dominated_op_position = i;
+          }
+          else if(op_priority_cmp(tokens[dominated_op_position].type, tokens[i].type) < 0)
+          {
+            dominated_op_position = i;
+          }
+          else if(op_priority_cmp(tokens[dominated_op_position].type, tokens[i].type) == 0 && tokens[i].type !='!' && tokens[i].type != TK_NEG && tokens[i].type != TK_PTR){
+            //from left to right
+            dominated_op_position = i;
+          }
         }
         break;
     }
   }
-
-  return 0;
+  if(dominated_op_position != -1) *success = true;
+  return dominated_op_position;
 }
+
 
 
 word_t eval(int p, int q, bool *success){
@@ -169,10 +200,10 @@ word_t eval(int p, int q, bool *success){
   }
   else if(p == q){
     //single token 
-    word_t val = 0;
+    word_t val;
     switch(tokens[p].type){
       case TK_REG: 
-        isa_reg_str2val(tokens[p].str + 1, success);
+        val = isa_reg_str2val(tokens[p].str + 1, success);
         if(!*success){return 0;}
         break;
       case TK_NUM: 
@@ -190,9 +221,21 @@ word_t eval(int p, int q, bool *success){
     } 
     else{
       //find op
-      find_dominated_op(p, q, success);
+      int dominated_op_position = find_dominated_op(p, q, success);
       if(!*success){return 0;}
 
+      int op_type = tokens[dominated_op_position].type;
+      if(op_type == '!' || op_type == TK_NEG || op_type == TK_PTR){
+        assert(dominated_op_position != p);
+        word_t val = eval(dominated_op_position + 1, q, success);
+        if(!*success){return 0;}
+        switch(op_type){
+          case '!': return !(val);
+          case TK_NEG: return -(val);
+          case TK_PTR: TODO(); return 0;
+        }
+     }
+      
     }
   }
   return 0;
