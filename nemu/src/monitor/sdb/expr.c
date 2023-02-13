@@ -235,7 +235,25 @@ word_t eval(int p, int q, bool *success){
           case TK_NEG: return -(val);
           case TK_PTR: TODO(); return 0;
         }
-     }
+      }
+      
+      word_t val1 = eval(p, dominated_op_position - 1, success);
+      if(!*success){return 0;}
+      word_t val2 = eval(dominated_op_position + 1, q, success);
+      if(!*success){return 0;}
+
+      switch(op_type){
+        case '+': return val1 + val2;
+        case '-': return val1 - val2;
+        case '*': return val1 * val2;
+        case '/': return val1 / val2;
+        case '%': return val1 % val2;
+        case TK_EQ: return val1 == val2;
+        case TK_NEQ: return val1 != val2;
+        case TK_AND: return val1 && val2;
+        case TK_OR: return val1 || val2;
+        default: assert(0);
+      }
     }
   }
   return 0;
