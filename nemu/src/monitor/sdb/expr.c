@@ -226,7 +226,8 @@ word_t eval(int p, int q, bool *success){
 
       int op_type = tokens[dominated_op_position].type;
       if(op_type == '!' || op_type == TK_NEG || op_type == TK_PTR){
-        assert(dominated_op_position != p);
+        printf("dom_pos: %d, p: %d", dominated_op_position, p);
+        //assert(dominated_op_position != p);
         word_t val = eval(dominated_op_position + 1, q, success);
         if(!*success){return 0;}
         switch(op_type){
