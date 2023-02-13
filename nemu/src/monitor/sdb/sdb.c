@@ -17,6 +17,7 @@
 #include <cpu/cpu.h>
 #include <readline/readline.h>
 #include <readline/history.h>
+#include <memory/paddr.h>
 #include "sdb.h"
 #include <utils.h>
 
@@ -101,13 +102,23 @@ static int cmd_x(char *args){
     word_t addr;
     int i;
     sscanf(arg1, "%d", &n);
-    bool successl
-    addr = expr(arg + strlen(arg) + 1, &success);
+    bool success;
+    addr = expr(arg1 + strlen(arg1) + 1, &success);
     if(success){
-      
+      for(i = 0; i < n; i++){
+        if(i % 4 == 0){
+          printf(FMT_WORD ": ", addr);
+        }
+        printf("0x%08x ", (uint32_t)paddr_read(addr, 4));
+        addr += 4;
+        if(i % 4 == 3){
+          printf("\n");
+        }
+      }
+      printf("\n");
     }
+    else { printf("Wrong Expr\n");}
   }
-  
   return 0;
 }
 
