@@ -90,7 +90,7 @@ static int cmd_w(char *args){
   else{
     /*TODO: Implement the function of watchpoint*/
     int NO = set_watchpoint(args);
-    if(NO != -1) {printf("Watchpoint %d/n", NO);}
+    if(NO != -1) {printf("Watchpoint #%d\n", NO);}
     else {printf("Wrong Expr");}
   }
   return 0;
