@@ -68,3 +68,22 @@ int set_watchpoint(char *e){
 
 /* TODO: Implement the functionality of watchpoint */
 
+int check_watchpoint(){
+  WP *p = head;
+  while(p!=NULL){
+    bool success = false;
+    word_t val = expr(p->expr, &success);
+    if(!success){
+      printf("An error occur on watchpoint #%d\n", p->NO);
+      return false; 
+    }
+
+    if(val != p->old_expr_val){
+      printf("Hit watchpoint #%d : %s, old_val = " FMT_WORD "cur_val = " FMT_WORD "\n", p->NO, p->expr, p->old_expr_val, val);
+      p->old_expr_val = val;
+      return false;
+    }
+    p = p->next;
+  }
+  return true;
+}
