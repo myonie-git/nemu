@@ -48,8 +48,32 @@ WP* new_wp(){
   return p;
 }
 
-void free_wp(WP* wp){
+void free_wp(WP* p){
+  free(p->expr);
+  p->next = free_;
+  free_ = p;
+}
 
+int delete_watchpoint(int NO){
+  WP *p = head;
+  WP *prev = NULL;
+  while(p!=NULL){
+    if(p->NO == NO){break; };
+    prev = p;
+    p = p->next;
+  }
+  if(p == NULL){
+    return false;
+  }
+  if(prev == NULL){//p == head
+    head = p->next;
+  }
+  else{
+    prev->next = p->next;
+  }
+  
+  free_wp(p);
+  return true;
 }
 
 int set_watchpoint(char *e){

@@ -22,6 +22,7 @@
 #include <utils.h>
 
 int set_watchpoint(char *e);
+int delete_watchpoint(int NO);
 
 static int is_batch_mode = false;
 
@@ -149,6 +150,24 @@ static int cmd_p(char *args){
   return 0;
 }
 
+static int cmd_d(char *args){
+  char *arg = strtok(NULL, " ");
+  if(arg == NULL){
+    Log("Usage: d N(for example: d 2)");
+  }
+  else{
+    int NO;
+    sscanf(args, "%d", &NO);
+    if(delete_watchpoint(NO)){
+      printf("Watchpoint #%d delete successfully\n", NO);
+    }
+    else{
+      printf("Watchpoint #%d not found\n", NO);
+    }
+  }
+  return 0;
+}
+
 static int cmd_help(char *args);
 
 static struct {
@@ -164,6 +183,7 @@ static struct {
   {"w", "Set watchpoint(usage: w EXPR)", cmd_w},
   {"x", "Scan memory(usage: x N EXPR)", cmd_x},
   {"p", "Evaluate the value of EXPR(usage: p EXPR)", cmd_p},
+  {"d", "Delete watchpoint(usage: d N", cmd_d},
   /* TODO: Add more commands */
 
 };
