@@ -42,7 +42,7 @@ void init_wp_pool() {
 }
 
 WP* new_wp(){
-
+  return head;
 }
 
 void free_wp(WP* wp){
@@ -54,7 +54,8 @@ int set_watchpoint(char *e){
   word_t val = expr(e, &success);
   if(!success) return -1;
 
-  WP *p = new_WP();
+  //WP *p = new_wp();
+  return val;
     
 }
 
