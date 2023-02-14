@@ -20,6 +20,8 @@
 typedef struct watchpoint {
   int NO;
   struct watchpoint *next;
+  char* expr;
+  word_t old_expr_val;
 
   /* TODO: Add more members if necessary */
 
@@ -37,6 +39,23 @@ void init_wp_pool() {
 
   head = NULL;
   free_ = wp_pool;
+}
+
+WP* new_wp(){
+
+}
+
+void free_wp(WP* wp){
+
+}
+
+int set_watchpoint(char *e){
+  bool success;
+  word_t val = expr(e, &success);
+  if(!success) return -1;
+
+  WP *p = new_WP();
+    
 }
 
 /* TODO: Implement the functionality of watchpoint */
