@@ -116,9 +116,9 @@ void list_watchpoint(){
   if(head == NULL){printf("No watchpoints\n"); return;}
   
   WP *p = head;
-  printf("%8s\t%8s\t%8s\n", "NO", "Val", "Expr");
+  printf("%-8s\t%-8s\t%8s\n", "NO", "Val", "Expr");
   while(p != NULL){
-    printf("%8d\t" FMT_WORD "\t%s\t\n", p->NO, p->old_expr_val, p->expr);
+    printf("%-8d\t" FMT_WORD "\t%s\t\n", p->NO, p->old_expr_val, p->expr);
     p = p -> next;
   }
 return;
