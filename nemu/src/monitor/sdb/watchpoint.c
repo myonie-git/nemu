@@ -42,7 +42,10 @@ void init_wp_pool() {
 }
 
 WP* new_wp(){
-  return head;
+  assert(free_ != NULL);
+  WP *p = free_;
+  free_ = free_ -> next;
+  return p;
 }
 
 void free_wp(WP* wp){
@@ -54,9 +57,13 @@ int set_watchpoint(char *e){
   word_t val = expr(e, &success);
   if(!success) return -1;
 
-  //WP *p = new_wp();
-  return val;
-    
+  WP *p = new_wp();
+  p->expr = strdup(e);
+  p->old_expr_val = val;
+  
+  p->next = head;
+  head = p;
+  return p->NO;
 }
 
 /* TODO: Implement the functionality of watchpoint */

@@ -21,6 +21,8 @@
 #include "sdb.h"
 #include <utils.h>
 
+int set_watchpoint(char *e);
+
 static int is_batch_mode = false;
 
 void init_regex();
@@ -87,8 +89,9 @@ static int cmd_w(char *args){
   }
   else{
     /*TODO: Implement the function of watchpoint*/
-    
-
+    int NO = set_watchpoint(args);
+    if(NO != -1) {printf("Watchpoint %d/n", NO);}
+    else {printf("Wrong Expr");}
   }
   return 0;
 }
