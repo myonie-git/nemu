@@ -87,3 +87,14 @@ int check_watchpoint(){
   }
   return true;
 }
+
+void list_watchpoint(){
+  if(head == NULL){printf("No watchpoints\n"); return;}
+  
+  WP *p = head;
+  while(p != NULL){
+    printf("%8d\t%s\t" FMT_WORD "\n", p->NO, p->expr, p->old_expr_val);
+    p = p -> next;
+  }
+return;
+}
