@@ -103,7 +103,7 @@ int check_watchpoint(){
     }
 
     if(val != p->old_expr_val){
-      printf("Hit watchpoint #%d : %s, old_val = " FMT_WORD "cur_val = " FMT_WORD "\n", p->NO, p->expr, p->old_expr_val, val);
+      printf("Hit watchpoint #%d : %s, old_val = " FMT_WORD ", cur_val = " FMT_WORD "\n", p->NO, p->expr, p->old_expr_val, val);
       p->old_expr_val = val;
       return false;
     }
