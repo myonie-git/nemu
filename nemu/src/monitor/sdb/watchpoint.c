@@ -117,7 +117,7 @@ void list_watchpoint(){
   
   WP *p = head;
   while(p != NULL){
-    printf("%8d\t%s\t" FMT_WORD "\n", p->NO, p->expr, p->old_expr_val);
+    printf("%8d\t" FMT_WORD "\t%s\t\n", p->NO, p->old_expr_val, p->expr);
     p = p -> next;
   }
 return;
