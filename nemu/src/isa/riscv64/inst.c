@@ -43,8 +43,6 @@ static void decode_operand(Decode *s, int *dest, word_t *src1, word_t *src2, wor
   int rd  = BITS(i, 11, 7);
   int rs1 = BITS(i, 19, 15);
   int rs2 = BITS(i, 24, 20);
-  immJ();
-  printf("imm : %ld", *imm);
   *dest = rd;
   switch (type) {
     case TYPE_I: src1R();          immI(); break;
