@@ -183,7 +183,7 @@ static struct {
   {"w", "Set watchpoint(usage: w EXPR)", cmd_w},
   {"x", "Scan memory(usage: x N EXPR)", cmd_x},
   {"p", "Evaluate the value of EXPR(usage: p EXPR)", cmd_p},
-  {"d", "Delete watchpoint(usage: d N", cmd_d},
+  {"d", "Delete watchpoint(usage: d N)", cmd_d},
   /* TODO: Add more commands */
 
 };
