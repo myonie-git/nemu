@@ -30,11 +30,10 @@ enum {
 #define src1R() do { *src1 = R(rs1); } while (0)
 #define src2R() do { *src2 = R(rs2); } while (0)
 #define immI() do { *imm = SEXT(BITS(i, 31, 20), 12); } while(0)
-#define testimmI() do { *imm = SEXT(BITS(i, 31, 31), 1) << 11;} while(0)
 #define immU() do { *imm = SEXT(BITS(i, 31, 12), 20) << 12; } while(0)
 #define immS() do { *imm = (SEXT(BITS(i, 31, 25), 7) << 5) | BITS(i, 11, 7); } while(0)
-#define immB() do { *imm = (SEXT(BITS(i, 31, 31), 1) << 12) | (SEXT(BITS(i, 7, 7), 1) << 11) | (SEXT(BITS(i, 30, 25), 6) << 5) | (SEXT(BITS(i, 11, 8), 4) << 1); } while(0)
-#define immJ() do { *imm = (SEXT(BITS(i, 31, 31), 1) << 20) | (BITS(i, 19, 12) << 12) | (SEXT(BITS(i, 11, 11), 1) << 11) | (SEXT(BITS(i, 30, 20), 1) << 1); } while(0)
+#define immB() do { *imm = (SEXT(BITS(i, 31, 31), 1) << 12) | BITS(i, 7, 7) << 11 | BITS(i, 30, 25) << 5 | BITS(i, 11, 8) << 1; } while(0)
+#define immJ() do { *imm = (SEXT(BITS(i, 31, 31), 1) << 20) | BITS(i, 19, 12) << 12 | BITS(i, 11, 11) << 11 | BITS(i, 30, 20) << 1; } while(0)
 
 // BITS(i, 31, 31) << 20 | BITS(i, 19, 12) << 12 | BITS(i, 11, 11) << 1| BITS(i, 30, 20) << 1
 
@@ -44,8 +43,8 @@ static void decode_operand(Decode *s, int *dest, word_t *src1, word_t *src2, wor
   int rd  = BITS(i, 11, 7);
   int rs1 = BITS(i, 19, 15);
   int rs2 = BITS(i, 24, 20);
-  immI();
-  testimmI();
+  immJ();
+  printf("imm : %ld", *imm);
   *dest = rd;
   switch (type) {
     case TYPE_I: src1R();          immI(); break;
