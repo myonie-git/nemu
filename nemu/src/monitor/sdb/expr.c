@@ -218,7 +218,17 @@ word_t eval(int p, int q, bool *success){
   else{
     //multi token
     if(tokens[p].type == '(' && tokens[q].type == ')'){
-      return eval(p+1, q-1, success);
+      int tmp_bracket = 0;
+      for(int i = p + 1; i <= q - 1; i++){
+        switch(tokens[i].type){
+          case '(': tmp_bracket ++; break;
+          case ')': 
+          tmp_bracket --; 
+          if(tmp_bracket < 0) {break;} 
+          break;           
+        }
+      }
+      if(tmp_bracket >= 0) {return eval(p+1, q-1, success);}
     } 
     else{
       //find op
