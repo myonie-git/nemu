@@ -31,8 +31,40 @@ static char *code_format =
 "  return 0; "
 "}";
 
+int buf_index = 0;
+
+static inline uint32_t choose(uint32_t n){
+  return rand() % n;
+}
+
+static inline void gen_rand_op(){
+  char op_list[] = {'+', '-', '*', '/'};
+  buf[buf_index++] = op_list[choose(sizeof(op_list) / sizeof(op_list[0]))];
+  return;
+}
+
+static inline void gen_num(){
+  buf_index += sprintf(buf + buf_index, "%d", (int)(rand() % 10000));
+  return;
+}
+
+static inline void gen(char ch){
+  buf[buf_index++] = ch;
+  return;
+}
+
+
+
 static void gen_rand_expr() {
-  buf[0] = '\0';
+  if(buf_index > 6000) {
+    return;
+  }
+  switch(choose(3)){
+    case 0: gen_num(); break;
+    case 1: gen('('); gen_rand_expr(); gen(')'); break;
+    case 2: gen_rand_expr(); gen_rand_op(); gen_rand_expr(); break;
+  }
+  
 }
 
 int main(int argc, char *argv[]) {
@@ -44,8 +76,10 @@ int main(int argc, char *argv[]) {
   }
   int i;
   for (i = 0; i < loop; i ++) {
+    buf_index = 0;
     gen_rand_expr();
 
+    buf[buf_index++] = '\0';
     sprintf(code_buf, code_format, buf);
 
     FILE *fp = fopen("/tmp/.code.c", "w");
