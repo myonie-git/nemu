@@ -40,8 +40,9 @@ void expr_test(){
       printf("line #%d failed \n", i);
       assert(0);
     }
-    printf("Test Completed\n");
   }
+  
+  printf("Test Completed\n");
 }
 
 int main(int argc, char *argv[]) {
