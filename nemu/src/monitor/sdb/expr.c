@@ -230,7 +230,7 @@ word_t eval(int p, int q, bool *success){
       }
       if(tmp_bracket >= 0) {return eval(p+1, q-1, success);}
     } 
-    else{
+    
       //find op
       int dominated_op_position = find_dominated_op(p, q, success);
       if(!*success){return 0;}
@@ -265,7 +265,7 @@ word_t eval(int p, int q, bool *success){
         case TK_OR: return val1 || val2;
         default: assert(0);
       }
-    }
+    
   }
   return 0;
 }
