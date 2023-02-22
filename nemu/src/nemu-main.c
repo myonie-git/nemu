@@ -36,8 +36,9 @@ void expr_test(){
       printf("Wrong Expr\n");
       assert(0);
     }
-    if(val == result){
-      printf("line #%d failed", i);
+    if(val != result){
+      printf("line #%d failed \n", i);
+      assert(0);
     }
   }
 }

@@ -114,7 +114,7 @@ static bool make_token(char *e) {
           case TK_REG: //change into num
             sprintf(tokens[nr_token].str, "%.*s", substr_len, substr_start);
             //assert(substr_len < 32); //stack overflow
-            printf("%s\n",tokens[nr_token].str);
+            //printf("%s\n",tokens[nr_token].str);
           default: 
             tokens[nr_token].type = rules[i].token_type;
             nr_token++; 
