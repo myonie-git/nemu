@@ -22,7 +22,7 @@ int is_exit_status_bad();
 word_t expr(char *e, bool *success);
 
 void expr_test(){
-  FILE *fp = fopen("~/ics2022/nemu/tools/gen-expr/brenchmark", "r");
+  FILE *fp = fopen("~/ics2022/nemu/tools/gen-expr/branchmark", "r");
   assert(fp != NULL);
   int result;
   bool success;
