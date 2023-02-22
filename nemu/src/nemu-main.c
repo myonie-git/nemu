@@ -40,6 +40,7 @@ void expr_test(){
       printf("line #%d failed \n", i);
       assert(0);
     }
+    printf("line #%d success \n", i);
   }
   
   printf("Test Completed\n");
