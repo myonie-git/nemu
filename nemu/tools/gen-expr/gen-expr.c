@@ -57,6 +57,7 @@ static inline void gen(char ch){
 
 static void gen_rand_expr() {
   if(buf_index > 6000) {
+    gen_num();
     return;
   }
   switch(choose(3)){

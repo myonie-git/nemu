@@ -19,6 +19,21 @@ void init_monitor(int, char *[]);
 void am_init_monitor();
 void engine_start();
 int is_exit_status_bad();
+word_t expr(char *e, bool *success);
+
+void expr_test(){
+  FILE *fp = fopen("~/ics2022/nemu/tools/gen-expr/brenchmark", "r");
+  assert(fp != NULL);
+  int result;
+  bool success;
+  char* buf;
+  fscanf(fp, "%d %s\n", &result, buf);
+  expr(buf, &success);
+  if(!success){
+    printf("Wrong Expr\n");
+    assert(0);
+  }
+}
 
 int main(int argc, char *argv[]) {
   /* Initialize the monitor. */
@@ -28,8 +43,12 @@ int main(int argc, char *argv[]) {
   init_monitor(argc, argv);
 #endif
 
+  expr_test();
+  return 0;
   /* Start engine. */
-  engine_start();
+  //engine_start();
 
   return is_exit_status_bad();
 }
+
+
