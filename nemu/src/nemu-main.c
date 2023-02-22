@@ -26,7 +26,7 @@ void expr_test(){
   assert(fp != NULL);
   int result;
   bool success;
-  char* buf;
+  char buf[65536];
   fscanf(fp, "%d %s\n", &result, buf);
   expr(buf, &success);
   if(!success){
