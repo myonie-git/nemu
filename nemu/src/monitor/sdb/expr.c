@@ -224,9 +224,9 @@ word_t eval(int p, int q, bool *success){
           case '(': tmp_bracket ++; break;
           case ')': 
           tmp_bracket --; 
-          if(tmp_bracket < 0) {break;} 
           break;           
         }
+        if(tmp_bracket < 0) {break;} 
       }
       if(tmp_bracket >= 0) {return eval(p+1, q-1, success);}
     } 
@@ -265,7 +265,6 @@ word_t eval(int p, int q, bool *success){
         case TK_OR: return val1 || val2;
         default: assert(0);
       }
-    
   }
   return 0;
 }
