@@ -22,16 +22,19 @@ int is_exit_status_bad();
 word_t expr(char *e, bool *success);
 
 void expr_test(){
-  FILE *fp = fopen("/home/myonie/ics2022/nemu/tools/gen-expr/branchmark", "r");
+  FILE *fp = fopen("/home/myonie/ics2022/nemu/tools/gen-expr/tmp", "r");
   assert(fp != NULL);
   int result;
   bool success;
   char buf[65536];
-  fscanf(fp, "%d %s\n", &result, buf);
-  expr(buf, &success);
-  if(!success){
-    printf("Wrong Expr\n");
-    assert(0);
+  char ch;
+  while(!feof(fp)){
+    fscanf(fp, "%d %s\n", &result, buf);
+    expr(buf, &success);
+    if(!success){
+      printf("Wrong Expr\n");
+      assert(0);
+    }
   }
 }
 
