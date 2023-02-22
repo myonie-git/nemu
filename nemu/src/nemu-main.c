@@ -24,16 +24,20 @@ word_t expr(char *e, bool *success);
 void expr_test(){
   FILE *fp = fopen("/home/myonie/ics2022/nemu/tools/gen-expr/tmp", "r");
   assert(fp != NULL);
-  int result;
+  int result, i = 0;
   bool success;
   char buf[65536];
   char ch;
   while(!feof(fp)){
+    i++;
     fscanf(fp, "%d %s\n", &result, buf);
-    expr(buf, &success);
+    int val = expr(buf, &success);
     if(!success){
       printf("Wrong Expr\n");
       assert(0);
+    }
+    if(val == result){
+      printf("line #%d failed", i);
     }
   }
 }
