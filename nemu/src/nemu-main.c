@@ -53,10 +53,10 @@ int main(int argc, char *argv[]) {
 #else
   init_monitor(argc, argv);
 #endif
-  expr_test();
-  return 0;
+  //expr_test();
+  //return 0;
   /* Start engine. */
-  //engine_start();
+  engine_start();
 
   return is_exit_status_bad();
 }
