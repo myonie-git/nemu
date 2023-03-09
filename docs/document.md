@@ -16,7 +16,7 @@
 
 > TODO
 
-### 2.3 小数激素那
+### 2.3 小数计算
 
 > TODO
 
@@ -24,14 +24,14 @@
 
 > TODO
 
-
 ## 3. RV64ME Instruction Set
+
+
+> TODO
 
 ### 3.1 忆阻器载入指令
 
 #### 3.1.1 忆阻器载入指令mld
-
-> TODO
 
 ### 3.2 忆阻器计算指令
 
@@ -49,9 +49,12 @@
 
 ### 3.4 其他指令
 
-> TODO
+#### 3.4.1 向量寄存器合并指令 vgtm 
 
-## 4. Implementation Of Neural Network Operator
+#### 3.4.2 单位向量寄存器生成指令 luv
+
+
+## 4. Implementation of Neural Network Operator
 
 > TODO
 
