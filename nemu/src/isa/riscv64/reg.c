@@ -23,6 +23,10 @@ const char *regs[] = {
   "s8", "s9", "s10", "s11", "t3", "t4", "t5", "t6"
 };
 
+const char *vregs[] = {
+  "v0", "v1", "v2", "v3"
+};
+
 void isa_reg_display() {
   //display rv32 regs
   for(int i = 0; i<32; i++){

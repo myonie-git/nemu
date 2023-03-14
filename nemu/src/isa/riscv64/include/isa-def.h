@@ -21,7 +21,14 @@
 typedef struct {
   word_t gpr[32];
   vaddr_t pc;
+
+  /*union {
+    uint64_t _64[];
+  }*/
+
+
 } riscv64_CPU_state;
+
 
 // decode
 typedef struct {
