@@ -21,11 +21,18 @@
 typedef struct {
   word_t gpr[32];
   vaddr_t pc;
+  //32*64
+  union {
+    uint64_t _128[2048/128];
+    uint64_t _64[2048/64];
+    uint64_t _32[2048/32];
+    uint64_t _16[2048/16];
+    uint64_t _8[2048/8];
+    //TODO(): Float type
+  } vgpr[32];
 
-  /*union {
-    uint64_t _64[];
-  }*/
-
+  uint64_t vl;
+  
 
 } riscv64_CPU_state;
 
