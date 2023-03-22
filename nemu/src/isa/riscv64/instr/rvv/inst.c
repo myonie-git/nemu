@@ -3,6 +3,10 @@
 #include <cpu/ifetch.h>
 #include <cpu/decode.h>
 
+
+int decode_exec_rvv(Decode *s) {
+  return 0;
+}
 /*
 vld*
 
