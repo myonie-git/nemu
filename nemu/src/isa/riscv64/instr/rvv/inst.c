@@ -5,8 +5,10 @@
 #include <cpu/inst.h>
 
 
-int decode_exec_rvv(Decode *s) {
-  
+int decode_exec_rvv_load(Decode *s) {
+  //检测是否是rv64v_load_store指令
+
+
   return 0;
 }
 /*
