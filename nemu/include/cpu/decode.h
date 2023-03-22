@@ -26,7 +26,7 @@ typedef struct Decode {
   IFDEF(CONFIG_ITRACE, char logbuf[128]);
 } Decode;
 
-int decode_exec_rvv(Decode *s);
+//int decode_exec_rvv(Decode *s);
 // --- pattern matching mechanism ---
 __attribute__((always_inline))
 static inline void pattern_decode(const char *str, int len,
