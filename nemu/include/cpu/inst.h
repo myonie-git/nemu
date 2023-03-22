@@ -2,3 +2,5 @@
 #define __CPU_INST_H__
 
 int decode_exec_rvv(Decode *s);
+
+#endif

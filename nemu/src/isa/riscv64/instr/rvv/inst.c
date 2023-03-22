@@ -2,6 +2,7 @@
 #include <cpu/cpu.h>
 #include <cpu/ifetch.h>
 #include <cpu/decode.h>
+#include <cpu/inst.h>
 
 
 int decode_exec_rvv(Decode *s) {
