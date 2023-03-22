@@ -18,6 +18,8 @@
 #include <cpu/ifetch.h>
 #include <cpu/decode.h>
 
+#include <cpu/inst.h>
+
 #define R(i) gpr(i)
 #define Mr vaddr_read
 #define Mw vaddr_write
