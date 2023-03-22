@@ -27,7 +27,7 @@ void expr_test(){
   int result, i = 0;
   bool success;
   char buf[65536];
-  char ch;
+  //char ch;
   while(!feof(fp)){
     i++;
     fscanf(fp, "%d %s\n", &result, buf);
