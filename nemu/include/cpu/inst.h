@@ -3,7 +3,7 @@
 
 #include <isa.h>
 #include <cpu/decode.h>
-int decode_exec_rvv_load(Decode *s);
+int decode_exec_rvv(Decode *s);
 
 
 #endif
