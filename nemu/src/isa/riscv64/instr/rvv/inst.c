@@ -8,9 +8,9 @@
 
 int decode_exec_rvv_load(Decode *s) {
   //检测是否是rv64v_load_store指令
-  int dest = 0;
-  word_t src1 = 0, src2 = 0, imm = 0;
-  s->dnpc = s->snpc;
+  //int dest = 0;
+  //word_t src1 = 0, src2 = 0, imm = 0;
+  //s->dnpc = s->snpc;
 
 #define INSTPAT_INST(s) ((s)->isa.inst.val)
 #define INSTPAT_MATCH(s, name, type, ... /* execute body */ ) { \
