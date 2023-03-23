@@ -144,7 +144,7 @@
 - 指令说明：本指令主要用于最大池化层的相关操作，具体操作如下图所示：
 
 <div align=center>
-<img src=vgtm.png style="zoom:40%;"/>
+<img src=vgtm.png style="zoom:60%;"/>
 </div>
 
 > TODO：vgtm或许可以用之后提出的谓词寄存器取代？ 不可以，因为我们没有提供专门的向量寄存器计算指令？
@@ -195,9 +195,9 @@ _ 指令功能：对fun_op功能对应的函数将fun_op(vs1)的输出结果保�
 
 ### 3.6 RV64V 保留指令
 
-#### 3.6.1 向量寄存器载入指令
+#### 3.6.1 RV64V保留指令内容
 
-vld, vlds, vldx
+由于忆阻器交叉阵列中需要使用向量寄存器来读取和载入数据。因此，我们保留了RV64V中关于向量读取和载入的相关指令。具体指令如下：
 
 - vld:  向量导入
 
@@ -205,17 +205,49 @@ vld, vlds, vldx
 
 - vldx: 索引导入
 
-> TODO: 看一下量化优化方法那本书是怎么写的
-
-#### 3.6.2 向量寄存器读取指令
-
 - vsd:  向量存储
 
 - vsds: 跨距存储
 
 - vsdx: 索引存储
 
-> TODO: 看一下量化优化方法那本书是怎么写的
+#### 3.6.2 保留指令
+
+> TODO: 先按照32个指令进行设计，之后再改这个东西
+
+具体指令编码如下所示：
+
+<div align=center>
+<img src=vector-load-store-instr.jpg style="zoom:60%;"/>
+</div>
+
+#### 3.6.3 width字段
+
+与RV64F指令共用opcode，二者通过width字段进行区分，如下图所示：
+
+<div align=center>
+<img src=vector-load-store-width.jpg style="zoom:60%;"/>
+</div>
+
+> TODO: 具体说明待完善
+
+#### 3.6.4 mop 字段
+
+<div align=center>
+<img src=vector-load-store-mop.jpg style="zoom:60%;"/>
+</div>
+
+> TODO: 具体说明待完善
+
+#### 3.6.5 lumop \& sumop 字段
+
+<div align=center>
+<img src=vector-load-store-lumop.jpg style="zoom:60%;"/>
+</div>
+
+> TODO: 具体说明待完善
+
+
 
 ## 4. Implementation of Neural Network Operator
 
