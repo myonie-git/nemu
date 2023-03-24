@@ -11,15 +11,18 @@ enum{
 };
 
 
+static void decode_operand_rvv_load(Decode *s, int *nf, int *mew, int *vm, int *lumop, int *src1, int *src2, int *width, int *dest, int type){
+  
+}
+
 int decode_exec_rvv_load(Decode *s) {
   //检测是否是rv64v_load_store指令
-  //int dest = 0;
-  //word_t src1 = 0, src2 = 0, imm = 0;
-  //s->dnpc = s->snpc;
+  int nf = 0, mew = 0, vm = 0, lumop = 0, src2 = 0, src1 = 0, width = 0, dest = 0;
+
 
 #define INSTPAT_INST(s) ((s)->isa.inst.val)
 #define INSTPAT_MATCH(s, name, type, ... /* execute body */ ) { \
-  /* decode_operand(s, &dest, &src1, &src2, &imm, concat(TYPE_, type)); */\
+  decode_operand_rvv_load(s, &nf, &mew, &vm, &lumop, &src1, &src2, &width, &dest, concat(TYPE_, type)); \
   __VA_ARGS__ ; \
 }
   
