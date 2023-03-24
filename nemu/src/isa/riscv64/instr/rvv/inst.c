@@ -25,12 +25,13 @@ static void decode_operand_rvv_load(Decode *s, int *nf, int *mew, int *mop, int 
   *vm = BITS(i, 25, 25);
   *lumop = BITS(i, 24, 20);
   int rs1 = BITS(i, 19, 15);
+  int rs2 = BITS(i, 24, 20);
   *width = BITS(i, 14, 12);
   *dest = BITS(i, 11, 7);
   switch(type){
-    case TYPE_V : break; //get rs1, vd
-    case TYPE_VS: break; //get rs1, rs2, vd
-    case TYPE_VX: break; //get rs1, vs1, vd
+    case TYPE_V : src1R();          break; //get rs1, vd
+    case TYPE_VS: src1R(); src2R(); break; //get rs1, rs2, vd
+    case TYPE_VX: src1R();          break; //get rs1, vs1, vd
   }
 
   return ;
