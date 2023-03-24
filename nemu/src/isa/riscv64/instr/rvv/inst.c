@@ -33,7 +33,6 @@ static void decode_operand_rvv_load(Decode *s, int *nf, int *mew, int *mop, int 
     case TYPE_VS: src1R(); src2R(); break; //get rs1, rs2, vd
     case TYPE_VX: src1R();          break; //get rs1, vs1, vd
   }
-
   return ;
 }
 
