@@ -8,6 +8,15 @@
 #include <isa.h>
 #include "vldst.h"
 
+//implemented
+#define MODE_UNIT 0
+#define MODE_INDEXED_UNORDERED 1 
+//unimplemented
+#define MODE_STRIDED 2  
+#define MODE_INDEXED_ORDERED 3 //只有这种方式保证导入的顺序
+
+
+
 void vld(Decode *s){
 //这里直接调用decode得了
     uint32_t i = s->isa.inst.val;
@@ -20,7 +29,13 @@ void vld(Decode *s){
     //vld loop:
     for(int idx = cpu.vstart; idx < cpu.vl; idx++){
         /*TODO: 对vl + vstart 进行校验*/
-        
+        switch(mop){
+            case 0: break;
+            case 2: break;
+            case 1: case 3: default: TODO();
+        }
+
+ 
     }
 
 
