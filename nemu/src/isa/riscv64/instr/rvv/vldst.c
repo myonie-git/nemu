@@ -34,8 +34,7 @@ void vld(Decode *s){
             case 2: break;
             case 1: case 3: default: TODO();
         }
-
- 
+        
     }
 
 
