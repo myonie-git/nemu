@@ -15,6 +15,8 @@ void vld(Decode *s){
     mop = BITS(i, 27, 26);
     width = BITS(i, 14, 12);
 
+    
+
     /*
     width: 
     000: 8b
@@ -22,7 +24,7 @@ void vld(Decode *s){
     110: 32b
     111: 64b
     */
-   //暂定不需要使用csr吧
+   
     return;
 }
 
