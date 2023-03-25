@@ -17,6 +17,7 @@
 #define __ISA_RISCV64_H__
 
 #include <common.h>
+#include "../instr/rvv/vreg.h"
 
 typedef struct {
   word_t gpr[32];
@@ -24,10 +25,11 @@ typedef struct {
   //32*64
   union {
     //uint128_t _128[2048/128];
-    uint64_t _64[2048/64];
-    uint32_t _32[2048/32];
-    uint16_t _16[2048/16];
-    uint8_t _8[2048/8];
+    uint64_t _64[MCLEN];
+    uint32_t _32[MCLEN * 2];
+    uint16_t _16[MCLEN * 4];
+    uint8_t _8[MCLEN * 8];
+    //TODO(): 这里结构还需要更改，具体更改方式取决于union是如何操作的，以及架构是如何定义的
     //TODO(): Float type
   } vgpr[32];
 

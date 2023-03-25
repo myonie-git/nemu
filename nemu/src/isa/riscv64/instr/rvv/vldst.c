@@ -18,8 +18,10 @@ void vld(Decode *s){
     rs1 = BITS(i, 19, 15);
     // Error检测
     //vld loop:
-    cpu.vstart = 1;
-
+    for(int idx = cpu.vstart; idx < cpu.vl; idx++){
+        /*TODO: 对vl + vstart 进行校验*/
+        
+    }
 
 
     /*
