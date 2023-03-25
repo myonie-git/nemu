@@ -15,6 +15,7 @@
 #define MODE_STRIDED 2  
 #define MODE_INDEXED_ORDERED 3 //只有这种方式保证导入的顺序
 
+#define R(i) gpr(i)
 
 
 void vld(Decode *s){
@@ -24,17 +25,23 @@ void vld(Decode *s){
     word_t src1 = 0, src2 = 0;
     mop = BITS(i, 27, 26);
     width = BITS(i, 14, 12);
+    vm = BITS(i, 25, 25);
     rs1 = BITS(i, 19, 15);
     // Error检测
     //vld loop:
+
+    switch(mop){
+        case MODE_UNIT: lumop = BITS(i, 24, 20); break;
+        case MODE_STRIDED:  rs2 = BITS(i, 24, 20); R(rs2); break;
+        case MODE_INDEXED_UNORDERED: case MODE_INDEXED_ORDERED: default: TODO();
+    }
+    
     for(int idx = cpu.vstart; idx < cpu.vl; idx++){
         /*TODO: 对vl + vstart 进行校验*/
-        switch(mop){
-            case 0: break;
-            case 2: break;
-            case 1: case 3: default: TODO();
-        }
+
         
+
+
     }
 
 

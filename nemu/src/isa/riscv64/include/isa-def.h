@@ -36,6 +36,8 @@ typedef struct {
   uint64_t vl; 
   uint64_t vstart; 
 
+  uint64_t p; // 掩码寄存器
+
 } riscv64_CPU_state;
 
 
