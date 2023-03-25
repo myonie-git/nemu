@@ -16,7 +16,8 @@
 #define MODE_INDEXED_ORDERED 3 //只有这种方式保证导入的顺序
 
 #define R(i) gpr(i)
-
+#define src1R() do { src1 = R(rs1); } while (0)
+#define src2R() do { src2 = R(rs2); } while (0)
 
 void vld(Decode *s){
 //这里直接调用decode得了
@@ -27,12 +28,13 @@ void vld(Decode *s){
     width = BITS(i, 14, 12);
     vm = BITS(i, 25, 25);
     rs1 = BITS(i, 19, 15);
+    
     // Error检测
     //vld loop:
 
     switch(mop){
-        case MODE_UNIT: lumop = BITS(i, 24, 20); break;
-        case MODE_STRIDED:  rs2 = BITS(i, 24, 20); R(rs2); break;
+        case MODE_UNIT: lumop = BITS(i, 24, 20); src1R(); break;
+        case MODE_STRIDED:  rs2 = BITS(i, 24, 20); src1R(); src2R(); break;
         case MODE_INDEXED_UNORDERED: case MODE_INDEXED_ORDERED: default: TODO();
     }
     
