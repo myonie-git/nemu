@@ -23,16 +23,16 @@ typedef struct {
   vaddr_t pc;
   //32*64
   union {
-    uint64_t _128[2048/128];
+    //uint128_t _128[2048/128];
     uint64_t _64[2048/64];
-    uint64_t _32[2048/32];
-    uint64_t _16[2048/16];
-    uint64_t _8[2048/8];
+    uint32_t _32[2048/32];
+    uint16_t _16[2048/16];
+    uint8_t _8[2048/8];
     //TODO(): Float type
   } vgpr[32];
 
-  uint64_t vl;
-  
+  uint64_t vl; 
+  uint64_t vstart; 
 
 } riscv64_CPU_state;
 
