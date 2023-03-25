@@ -24,6 +24,7 @@ void vld(Decode *s){
     uint32_t i = s->isa.inst.val;
     int nf = 0, mew = 0, mop = 0, vm = 0, lumop = 0, rs1 = 0, rs2 = 0, width = 0, dest = 0;
     word_t src1 = 0, src2 = 0;
+    uint64_t mask = 0;
     mop = BITS(i, 27, 26);
     width = BITS(i, 14, 12);
     vm = BITS(i, 25, 25);
@@ -35,12 +36,19 @@ void vld(Decode *s){
     switch(mop){
         case MODE_UNIT: lumop = BITS(i, 24, 20); src1R(); break;
         case MODE_STRIDED:  rs2 = BITS(i, 24, 20); src1R(); src2R(); break;
-        case MODE_INDEXED_UNORDERED: case MODE_INDEXED_ORDERED: default: TODO();
+        case MODE_INDEXED_UNORDERED: case MODE_INDEXED_ORDERED: default: assert(0); 
+        /*TODO()*/
+    }
+
+    switch(vm){
+        case true: mask = cpu.p; break;
+        case false: mask = -1; break; //设置掩码为全1 
+        default: assert(0);
     }
     
     for(int idx = cpu.vstart; idx < cpu.vl; idx++){
         /*TODO: 对vl + vstart 进行校验*/
-
+        
         
 
 
