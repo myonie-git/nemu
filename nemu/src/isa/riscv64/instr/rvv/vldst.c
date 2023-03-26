@@ -7,6 +7,7 @@
 #include <cpu/inst.h>
 #include <isa.h>
 #include "vldst.h"
+#include "vreg.h"
 
 //implemented
 #define MODE_UNIT 0
@@ -15,16 +16,27 @@
 #define MODE_STRIDED 2  
 #define MODE_INDEXED_ORDERED 3 //只有这种方式保证导入的顺序
 
+#define WIDTH_8 0
+#define WIDTH_16 5
+#define WIDTH_32 6
+#define WIDTH_64 7
+
+
 #define R(i) gpr(i)
-#define src1R() do { src1 = R(rs1); } while (0)
-#define src2R() do { src2 = R(rs2); } while (0)
+#define V(i) vgpr(i)
+#define Mr vaddr_read
+#define Mw vaddr_write
+//#define src1R() do { src1 = R(rs1); } while (0)
+//#define src2R() do { src2 = R(rs2); } while (0)
 
 void vld(Decode *s){
 //这里直接调用decode得了
     uint32_t i = s->isa.inst.val;
     int nf = 0, mew = 0, mop = 0, vm = 0, lumop = 0, rs1 = 0, rs2 = 0, width = 0, dest = 0;
     word_t src1 = 0, src2 = 0;
+    word_t addr = 0;
     int stride = 0;
+    int64_t len = 0;
     uint64_t mask = 0;
     mop = BITS(i, 27, 26);
     width = BITS(i, 14, 12);
@@ -43,26 +55,40 @@ void vld(Decode *s){
         /*TODO()*/
     }
 
+    switch(width){
+        case WIDTH_8: len = 8; break; 
+        case WIDTH_16: len = 16; break;
+        case WIDTH_32: len = 32; break;
+        case WIDTH_64: len = 64; break;
+        default: assert(0); break;
+    }
+
+
     switch(vm){
         case true: mask = cpu.p; break;
         case false: mask = -1; break; //设置掩码为全1 
         default: assert(0);
     }
-
-
     //lumop
     //mew
     //
-    
+    if(cpu.vstart + cpu.vl >= MCLEN) assert(0); 
+    /*TODO: 带nfield的校验*/
+    int offset = 0;
     for(int idx = cpu.vstart; idx < cpu.vl; idx++){
-        /*TODO: 对vl + vstart 进行校验*/
         
-        
-
-
+        if(BITS(mask, idx, idx)) {
+            switch(width){
+                case WIDTH_8:  V(rs1)._8[idx * 8] = Mr(src1 + offset, 8); 
+                case WIDTH_16: V(rs1)._16[idx * 4] = Mr(src1 + offset, 16);
+                case WIDTH_32: V(rs1)._32[idx * 2] = Mr(src1 + offset, 32);
+                case WIDTH_64: V(rs1)._64[idx] = Mr(src1 + offset, 64);
+            }
+        }
+        /*TODO: 无符号的导入*/
+        /*TODO: 跨符号的导入*/
+        offset += len * stride;
     }
-
-
     /*
     width: 
     000: 8b
@@ -70,9 +96,69 @@ void vld(Decode *s){
     110: 32b
     111: 64b
     */
-   
     return;
 }
 
 
+void vsd(Decode *s){
+//这里直接调用decode得了
+    uint32_t i = s->isa.inst.val;
+    int nf = 0, mew = 0, mop = 0, vm = 0, lumop = 0, rs1 = 0, rs2 = 0, width = 0, dest = 0;
+    word_t src1 = 0, src2 = 0;
+    word_t addr = 0;
+    int stride = 0;
+    int64_t len = 0;
+    uint64_t mask = 0;
+    mop = BITS(i, 27, 26);
+    width = BITS(i, 14, 12);
+    vm = BITS(i, 25, 25);
+    rs1 = BITS(i, 19, 15);
+    src1 = R(rs1);
+    mew = BITS(i, 28, 28);
+    
+    assert(!mew);
+    // Error检测
+    //vld loop:
+    switch(mop){
+        case MODE_UNIT: lumop = BITS(i, 24, 20); stride = 1;break;
+        case MODE_STRIDED:  rs2 = BITS(i, 24, 20); stride = R(rs2); break;
+        case MODE_INDEXED_UNORDERED: case MODE_INDEXED_ORDERED: default: assert(0); 
+        /*TODO()*/
+    }
+
+    switch(width){
+        case WIDTH_8: len = 8; break; 
+        case WIDTH_16: len = 16; break;
+        case WIDTH_32: len = 32; break;
+        case WIDTH_64: len = 64; break;
+        default: assert(0); break;
+    }
+
+    switch(vm){
+        case true: mask = cpu.p; break;
+        case false: mask = -1; break; //设置掩码为全1 
+        default: assert(0);
+    }
+    //lumop
+    //mew
+    //
+    if(cpu.vstart + cpu.vl >= MCLEN) assert(0); 
+    /*TODO: 带nfield的校验*/
+    int offset = 0;
+    for(int idx = cpu.vstart; idx < cpu.vl; idx++){
+    
+        if(BITS(i, idx, idx)) {Mw(src1 + offset, len, V(rs1)._64[idx]); }
+        /*TODO: 无符号的导入*/
+        /*TODO: 指令是否合规？*/
+        offset += len * stride ;
+    }
+    /*
+    width: 
+    000: 8b
+    101: 16b
+    110: 32b
+    111: 64b
+    */
+    return;
+}
 
