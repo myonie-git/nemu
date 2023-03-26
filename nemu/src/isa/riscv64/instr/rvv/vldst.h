@@ -4,7 +4,6 @@
 #define __RVV_VLDST_H__
 
 void vld(Decode *s);
-
-
+void vsd(Decode *s);
 
 #endif
