@@ -30,7 +30,6 @@
 //#define src2R() do { src2 = R(rs2); } while (0)
 
 void vld(Decode *s){
-//这里直接调用decode得了
     uint32_t i = s->isa.inst.val;
     int nf = 0, mew = 0, mop = 0, vm = 0, lumop = 0, rs1 = 0, rs2 = 0, width = 0, dest = 0;
     word_t src1 = 0, src2 = 0;

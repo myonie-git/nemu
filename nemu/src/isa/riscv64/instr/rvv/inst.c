@@ -27,5 +27,10 @@ vld*
   {bits: 1, name: 'mew'},
   {bits: 3, name: 'nf'},
 ]}
-
 */
+
+void vgtm(Decode *s){
+  uint32_t i = s->isa.inst.val;
+  int rs1 = 0, rs2 = 0;
+
+}
