@@ -103,7 +103,7 @@ void vld(Decode *s){
 void vsd(Decode *s){
 //这里直接调用decode得了
     uint32_t i = s->isa.inst.val;
-    int nf = 0, mew = 0, mop = 0, vm = 0, lumop = 0, rs1 = 0, rs2 = 0, width = 0, dest = 0;
+    int nf = 0, mew = 0, mop = 0, vm = 0, sumop = 0, rs1 = 0, rs2 = 0, width = 0, dest = 0;
     word_t src1 = 0, src2 = 0;
     word_t addr = 0;
     int stride = 0;
@@ -120,7 +120,7 @@ void vsd(Decode *s){
     // Error检测
     //vld loop:
     switch(mop){
-        case MODE_UNIT: lumop = BITS(i, 24, 20); stride = 1;break;
+        case MODE_UNIT: sumop = BITS(i, 24, 20); stride = 1;break;
         case MODE_STRIDED:  rs2 = BITS(i, 24, 20); stride = R(rs2); break;
         case MODE_INDEXED_UNORDERED: case MODE_INDEXED_ORDERED: default: assert(0); 
         /*TODO()*/
