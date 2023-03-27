@@ -118,7 +118,7 @@ void vsd(Decode *s){
         case MODE_INDEXED_UNORDERED: case MODE_INDEXED_ORDERED: default: assert(0); 
         /*TODO()*/
     }
-
+    
     switch(width){
         case WIDTH_8: len = 8; break; 
         case WIDTH_16: len = 16; break;
