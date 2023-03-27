@@ -32,8 +32,7 @@
 void vld(Decode *s){
     uint32_t i = s->isa.inst.val;
     int nf = 0, mew = 0, mop = 0, vm = 0, lumop = 0, rs1 = 0, rs2 = 0, width = 0, dest = 0;
-    word_t src1 = 0, src2 = 0;
-    word_t addr = 0;
+    word_t src1 = 0;
     int stride = 0;
     int64_t len = 0;
     uint64_t mask = 0;
@@ -96,8 +95,7 @@ void vsd(Decode *s){
 //这里直接调用decode得了
     uint32_t i = s->isa.inst.val;
     int nf = 0, mew = 0, mop = 0, vm = 0, sumop = 0, rs1 = 0, rs2 = 0, width = 0, dest = 0;
-    word_t src1 = 0, src2 = 0;
-    word_t addr = 0;
+    word_t src1 = 0;
     int stride = 0;
     int64_t len = 0;
     uint64_t mask = 0;
