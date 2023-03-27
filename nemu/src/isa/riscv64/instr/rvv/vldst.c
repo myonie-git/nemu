@@ -89,13 +89,6 @@ void vld(Decode *s){
         /*TODO: 跨符号的导入*/
         offset += len * stride;
     }
-    /*
-    width: 
-    000: 8b
-    101: 16b
-    110: 32b
-    111: 64b
-    */
     return;
 }
 
@@ -160,13 +153,7 @@ void vsd(Decode *s){
         /*TODO: 指令是否合规？*/
         offset += len * stride ;
     }
-    /*
-    width: 
-    000: 8b
-    101: 16b
-    110: 32b
-    111: 64b
-    */
+
     return;
 }
 
