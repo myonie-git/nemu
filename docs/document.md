@@ -56,6 +56,8 @@
 
 ## 3. RV64MC Instruction Set
 
+> 目前的所有指令： mld, mst, madd, msub, ewmul, mdot, vgtm, luv, setax, seti
+
 ### 3.1 概述
 
 > TODO：待完成
@@ -161,13 +163,19 @@
 > TODO：vgtm或许可以用之后提出的谓词寄存器取代？ 不可以，因为我们没有提供专门的向量寄存器计算指令？
 > TODO: 或许可以用memristor来进行计算？不可以，我们并没有设置vpne等之类的谓词寄存器指令
 
-#### 3.5.2 单位向量寄存器生成指令 luv
+#### 3.5.2 单位向量寄存器生成指令 guv
 
-- 指令格式： luv vd, rs1
+- 指令格式： guv vd, rs1
 
 - 指令功能：生成单位向量，将rs1的单位向量导入到vd中
 
 - 指令编码：TODO()
+
+    opcode: OP-V
+
+    funct6: 001101
+
+    提供OPIVV, OPIVX两种方式
 
 - 指令说明：生成向量的长度由setvl决定
 
