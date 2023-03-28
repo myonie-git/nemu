@@ -42,6 +42,7 @@ void vld(Decode *s){
     rs1 = BITS(i, 19, 15);
     src1 = R(rs1);
     mew = BITS(i, 28, 28);
+    dest = BITS(i, 11, 7);
     
     assert(!mew);
     // Error检测
@@ -75,12 +76,12 @@ void vld(Decode *s){
     int offset = 0;
     for(int idx = cpu.vstart; idx < cpu.vl; idx++){
         
-        if(BITS(mask, idx, idx)) {
+        if(!vm ||BITS(mask, idx, idx)) {
             switch(width){
-                case WIDTH_8:  V(rs1)._8[idx * 8] = Mr(src1 + offset, 1); 
-                case WIDTH_16: V(rs1)._16[idx * 4] = Mr(src1 + offset, 2);
-                case WIDTH_32: V(rs1)._32[idx * 2] = Mr(src1 + offset, 4);
-                case WIDTH_64: V(rs1)._64[idx] = Mr(src1 + offset, 8);
+                case WIDTH_8:  V(dest)._64[idx] = Mr(src1 + offset, 1); 
+                case WIDTH_16: V(dest)._64[idx] = Mr(src1 + offset, 2);
+                case WIDTH_32: V(dest)._64[idx] = Mr(src1 + offset, 4);
+                case WIDTH_64: V(dest)._64[idx] = Mr(src1 + offset, 8);
             }
         }
         /*TODO: 无符号的导入*/
@@ -105,6 +106,7 @@ void vsd(Decode *s){
     rs1 = BITS(i, 19, 15);
     src1 = R(rs1);
     mew = BITS(i, 28, 28);
+    dest = BITS(i, 11, 7);
     
     assert(!mew);
     // Error检测
@@ -137,12 +139,12 @@ void vsd(Decode *s){
     int offset = 0;
     for(int idx = cpu.vstart; idx < cpu.vl; idx++){
         
-        if(BITS(mask, idx, idx)) {
+        if( !vm || BITS(mask, idx, idx)) {
             switch(width){
-                case WIDTH_8:  Mw(src1 + offset, 1, V(rs1)._8[idx * 8]); 
-                case WIDTH_16: Mw(src1 + offset, 2, V(rs1)._16[idx * 4]);
-                case WIDTH_32: Mw(src1 + offset, 4, V(rs1)._32[idx * 2]);
-                case WIDTH_64: Mw(src1 + offset, 8, V(rs1)._64[idx]);
+                case WIDTH_8:  Mw(src1 + offset, 1, V(dest)._8[idx * 8]); 
+                case WIDTH_16: Mw(src1 + offset, 2, V(dest)._16[idx * 4]);
+                case WIDTH_32: Mw(src1 + offset, 4, V(dest)._32[idx * 2]);
+                case WIDTH_64: Mw(src1 + offset, 8, V(dest)._64[idx]);
             }
         }
 
