@@ -3,7 +3,7 @@
 #include <cpu/ifetch.h>
 #include <cpu/decode.h>
 #include <cpu/inst.h>
-#include "vldst.h"
+#include "inst.h"
 
 enum{
   TYPE_N,
@@ -17,6 +17,6 @@ void vgtm(Decode *s){
   uint32_t i = s->isa.inst.val;
   int rs1 = 0, rs2 = 0, funct3 = 0, dest = 0;
   funct3 = BITS(i, 14, 12);
-  
+
   return ;
 }
