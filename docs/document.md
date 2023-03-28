@@ -175,7 +175,7 @@
 
     funct6: 001101
 
-    提供OPIVV, OPIVX两种方式
+    提供OPIVV, OPIVX， OPIVV三种方式
 
 - 指令说明：生成向量的长度由setvl决定
 
