@@ -30,7 +30,8 @@ vld*
 */
 
 void vgtm(Decode *s){
-  //uint32_t i = s->isa.inst.val;
-  //int rs1 = 0, rs2 = 0;
+  uint32_t i = s->isa.inst.val;
+  int rs1 = 0, rs2 = 0, funct3 = 0, dest = 0;
+
   return ;
 }
