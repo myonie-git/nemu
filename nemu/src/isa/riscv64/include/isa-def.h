@@ -51,6 +51,9 @@ typedef struct {
 
   uint64_t p; // 掩码寄存器
 
+  uint64_t mctype; // 元素类型
+  
+
 
 } riscv64_CPU_state;
 

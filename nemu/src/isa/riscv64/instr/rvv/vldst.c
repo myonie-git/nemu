@@ -21,7 +21,6 @@
 #define WIDTH_32 6
 #define WIDTH_64 7
 
-
 #define R(i) gpr(i)
 #define V(i) vgpr(i)
 #define Mr vaddr_read
