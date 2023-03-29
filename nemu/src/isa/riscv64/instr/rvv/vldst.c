@@ -62,7 +62,6 @@ void vld(Decode *s){
         default: assert(0); break;
     }
 
-
     switch(vm){
         case true: mask = cpu.p; break;
         case false: mask = -1; break; //设置掩码为全1 

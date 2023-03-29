@@ -5,5 +5,6 @@
 
 void vld(Decode *s);
 void vsd(Decode *s);
+void guv(Decode *s);
 
 #endif

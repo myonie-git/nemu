@@ -24,6 +24,11 @@ typedef struct{
   uint64_t y;
 } MC_POSITION_REG;
 
+typedef struct{
+  uint64_t xlen;
+  uint64_t ylen;
+} MC_LENGTH_REG;
+
 
 typedef struct {
   word_t gpr[32];
@@ -40,11 +45,12 @@ typedef struct {
   } vgpr[32];
 
   MC_POSITION_REG mgpr[4]; // 四个忆阻器位置寄存器
-
+  MC_LENGTH_REG mvl; //忆阻器长度寄存器
   uint64_t vl; 
   uint64_t vstart; 
 
   uint64_t p; // 掩码寄存器
+
 
 } riscv64_CPU_state;
 
