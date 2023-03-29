@@ -19,6 +19,12 @@
 #include <common.h>
 #include "../instr/rvv/vreg.h"
 
+typedef struct{
+  uint64_t x;
+  uint64_t y;
+} MC_POSITION_REG;
+
+
 typedef struct {
   word_t gpr[32];
   vaddr_t pc;
@@ -32,6 +38,8 @@ typedef struct {
     //TODO(): 这里结构还需要更改，具体更改方式取决于union是如何操作的，以及架构是如何定义的
     //TODO(): Float type
   } vgpr[32];
+
+  MC_POSITION_REG mgpr[4]; // 四个忆阻器位置寄存器
 
   uint64_t vl; 
   uint64_t vstart; 
