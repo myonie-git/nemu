@@ -48,12 +48,9 @@ typedef struct {
   MC_LENGTH_REG mvl; //忆阻器长度寄存器
   uint64_t vl; 
   uint64_t vstart; 
-
   uint64_t p; // 掩码寄存器
-
   uint64_t mctype; // 元素类型
   
-
 
 } riscv64_CPU_state;
 
