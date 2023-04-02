@@ -254,12 +254,15 @@ RV64MC使用了OP-MC(0001011)的opcode编码空间，指令格式与RV64V基本�
     - funct3: OPSET
     - funct6: funct4 + funct2
         - funct4: 指令编码，具体指令编码见[RV64MC-Instr.xlsx](./RV64MC-Instr.xlsx)
-        - funct2 : 指令类型
-            - 00: src1:imm, src2: imm
-            - 01: src1:imm, src2: reg
-            - 10: src1:reg, src2: imm
-            - 11: src1:reg, src2: reg
+        - funct2 : 指令如下：
 
+            | funct2 | src1 | src2 |
+            |-|-|-|
+            |00|imm|imm|
+            |01|imm|reg|
+            |10|reg|imm|
+            |11|reg|reg|
+            
 #### 3.5.4 查找表指令 lut
 
 - 指令格式： lut vd, vs1, fun_op
