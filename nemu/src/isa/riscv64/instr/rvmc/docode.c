@@ -3,7 +3,7 @@
 #include <cpu/ifetch.h>
 #include <cpu/decode.h>
 #include <cpu/inst.h>
-#include "inst.h"
+#include "decode.h"
 
 #define MODE_MCTYPE_WISTH_8 0
 #define MODE_MCTYPE_WIDTH_16 1
