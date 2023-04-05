@@ -20,8 +20,8 @@
 #include "../instr/rvv/vreg.h"
 
 typedef struct{
-  uint64_t x;
-  uint64_t y;
+  uint64_t x; //列编号
+  uint64_t y; //行编号
 } MC_POSITION_REG;
 
 typedef struct{
@@ -31,6 +31,7 @@ typedef struct{
 
 
 typedef struct {
+  word_t mc[MCLEN][MCLEN];
   word_t gpr[32];
   vaddr_t pc;
   //32*64
@@ -44,7 +45,7 @@ typedef struct {
     //TODO(): Float type
   } vgpr[32];
 
-  MC_POSITION_REG mgpr[4]; // 四个忆阻器位置寄存器
+  MC_POSITION_REG mgpr[32]; // 四个忆阻器位置寄存器 // 先按照32个来弄
   MC_LENGTH_REG mvl; //忆阻器长度寄存器
   uint64_t vl; 
   uint64_t vstart; 
