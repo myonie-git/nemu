@@ -22,13 +22,48 @@
 #define R(i) gpr(i)
 #define V(i) vgpr(i)
 
+typedef struct {
+    int src1, src2, dest;
+    word_t rs2, imm;
+    MC_POSITION_REG m0, m1;
+} RV64MC_Operand;
+
 enum{
     TYPE_V,
     TYPE_VSET,
     TYPE_N,
 };
 
+static void decode_operand_rvmc(Decode *s, RV64MC_Operand* op, int type){
+    uint32_t i = s->isa.inst.val;
+    op->src1 = BITS(i, 19, 15);
+    op->src2 = BITS(i, 24, 20);
+    op->dest = BITS(i, 11, 7);
+    switch(type){
+        case OPICC: break;
+        case OPFCC: break;
+        case OPICV: break;
+        case OPICX: break;
+        case OPICI: break;
+        case OPFCV: break;
+        case OPFCF: break;
+        default: assert(0); break;
+    }
+}
+
+
 void madd(Decode *s, int TYPE){
+    RV64MC_Operand op;
+    decode_operand_rvmc(s, &op, TYPE);
+
+}
+
+void msub(Decode *s, int TYPE){
+    RV64MC_Operand op;
+}
+
+void mdot(Decode *s, int TYPE){
     
 }
+
 
