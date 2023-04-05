@@ -2,7 +2,7 @@
 #ifndef __RVMC_INST_H__
 #define __RVMC_INST_H__
 
-int rvmc_decode_exec(s);
+int rvmc_decode_exec(Decode *s);
 
 /*
 
