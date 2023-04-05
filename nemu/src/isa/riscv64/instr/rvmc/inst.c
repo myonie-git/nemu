@@ -5,7 +5,7 @@
 #include <cpu/inst.h>
 #include "decode.h"
 
-#define MODE_MCTYPE_WISTH_8 0
+#define MODE_MCTYPE_WIDTH_8 0
 #define MODE_MCTYPE_WIDTH_16 1
 #define MODE_MCTYPE_WIDTH_32 2 
 #define MODE_MCTYPE_WIDTH_64 3
@@ -78,18 +78,19 @@ void madd(Decode *s, int TYPE){
     }
 
     if(op.m0.x != op.m1.x) {assert(0); }
-    /*
-    if(op.m0.x + cpu.p >= MCLEN) assert(0);
-    for(int i = op.mo.x; i < cpu.vl; i++){
-        if(!vm || BITS(mask, idx, idx)){
+    if(op.m0.x + cpu.mvl.xlen >= MCLEN) assert(0);
+    if(cpu.mvl.ylen > 1) assert(0);
+    
+    for(int idx = op.m0.x; idx < cpu.mvl.xlen + op.m0.x; idx++){
+        if(!op.vm || BITS(mask, idx, idx)){
             switch(cpu.mctype){
-                case MODE_MCTYPE_WIDTH_8:
-                    v(dest)[idx] = mc[m0.x + idx][mo.y] + mc[m1]
-                    break;
+                case MODE_MCTYPE_WIDTH_8: V(op.vdest)._64[idx] = (uint8_t)(cpu.mc[op.m0.x + idx][op.m0.y] + cpu.mc[op.m1.x + idx][op.m1.y]); break;
+                case MODE_MCTYPE_WIDTH_16: V(op.vdest)._64[idx] = (uint16_t)(cpu.mc[op.m0.x + idx][op.m0.y] + cpu.mc[op.m1.x + idx][op.m1.y]); break;
+                case MODE_MCTYPE_WIDTH_32: V(op.vdest)._64[idx] = (uint32_t)(cpu.mc[op.m0.x + idx][op.m0.y] + cpu.mc[op.m1.x + idx][op.m1.y]); break;
+                case MODE_MCTYPE_WIDTH_64: V(op.vdest)._64[idx] = (uint64_t)(cpu.mc[op.m0.x + idx][op.m0.y] + cpu.mc[op.m1.x + idx][op.m1.y]); break;
             }
         }
     }
-    */
 }
 
 void msub(Decode *s, int TYPE){
