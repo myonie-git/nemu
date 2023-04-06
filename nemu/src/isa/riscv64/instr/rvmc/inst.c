@@ -131,7 +131,7 @@ void mdot(Decode *s, int TYPE){
     if(op.m0.x + cpu.mvl.xlen > MCLEN) assert(0);
     if(op.m0.y + cpu.mvl.ylen > MCLEN) assert(0);
     
-    uint64_t tmp;
+    uint64_t tmp = 0;
 
     for(int idx = op.m0.x; idx < cpu.mvl.xlen + op.m0.x; idx++){
         if(!op.vm || BITS(mask, idx, idx)){
@@ -167,7 +167,7 @@ void mld(Decode* s, int TYPE){
     if(op.m0.y + cpu.mvl.ylen > MCLEN) assert(0);
     if(cpu.mvl.xlen > 1) assert(0);
 
-    uint64_t tmp;
+    uint64_t tmp = 0;
 
     for(int idy = op.m0.y; idy < cpu.mvl.ylen + op.m0.y; idy++){
         if(!op.vm || BITS(mask, idy, idy)){
