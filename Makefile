@@ -3,7 +3,7 @@ STUNAME = Myonie
 
 # DO NOT modify the following code!!!
 
-GITFLAGS = -q --author='tracer-ics2022 <tracer@njuics.org>' --no-verify --allow-empty
+GITFLAGS = -q --author='myonie-git <myonie.0724@gmail.com>' --no-verify --allow-empty
 
 # prototype: git_commit(msg)
 define git_commit
