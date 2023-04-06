@@ -26,7 +26,7 @@
 #define MX(i) mgpr_x(i)
 #define MY(i) mgpr_y(i)
 
-static void decopde_operand(Decode *s, int *tmp1, int* tmp2, int *dest){
+static void decode_operand_opset(Decode *s, int *tmp1, int* tmp2, int *dest){
     uint32_t i = s->isa.inst.val;
     *dest = BITS(i, 11, 7);
     int src1 = BITS(i, 19, 15);
@@ -49,11 +49,10 @@ int opset_decode_exec(Decode *s){
     int dest = 0;
 #define INSTPAT_INST(s) ((s)->isa.inst.val)
 #define INSTPAT_MATCH(s, name, type, ... /* execute body */ ) { \
-    decode_operand(s, &tmp1, &tmp2, &dest);  \
+    decode_operand_opset(s, &tmp1, &tmp2, &dest);  \
     __VA_ARGS__; \
 }
     INSTPAT_START();
-
     INSTPAT("0000?? ? ????? ????? 111 ????? 00010 11", mvl   , VSET, cpu.mvl.xlen = tmp1; cpu.mvl.ylen = tmp2;);
     INSTPAT("0001?? ? ????? ????? 111 ????? 00010 11", mgpr  , VSET, mgpr_x(dest) = tmp1; mgpr_y(dest) = tmp2;);
     INSTPAT("0010?? ? ????? ????? 111 ????? 00010 11", p     , VSET, cpu.p = tmp1);
