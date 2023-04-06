@@ -188,5 +188,30 @@ void mld(Decode* s, int TYPE){
 }
 
 void mewmul(Decode *s, int type){
-    
+    RV64MC_Operand op;
+    decode_operand_rvmc(s, &op, type);
+    uint64_t mask = 0; 
+    switch(op.vm){
+        case true: mask = cpu.p; break;
+        case false: mask = 0xffffffffffffffff; break;
+    }
+    if(op.m0.x + cpu.mvl.xlen > MCLEN) assert(0);
+    if(op.m0.y + cpu.mvl.ylen > MCLEN) assert(0);
+    if(cpu.mvl.ylen > 1) assert(0);
+    uint64_t tmp = 0;
+    switch(type){
+        case OPICV: tmp = V(op.vsrc2)._64[op.m0.y]; break;
+        case OPICX: tmp = op.rs2              ; break;
+        case OPICI: tmp = op.imm              ; break;
+    }
+    for(int idx = op.m0.x; idx < op.m0.x + cpu.mvl.xlen; idx++){
+        if(!op.vm || BITS(mask, idx, idx)){
+            switch(cpu.mctype){
+                case MODE_MCTYPE_WIDTH_8 : V(op.vdest)._64[idx] = (uint8_t)((uint8_t)tmp * (uint8_t)cpu.mc[idx][op.m0.y]); break;
+                case MODE_MCTYPE_WIDTH_16: V(op.vdest)._64[idx] = (uint16_t)((uint16_t)tmp * (uint16_t)cpu.mc[idx][op.m0.y]); break;
+                case MODE_MCTYPE_WIDTH_32: V(op.vdest)._64[idx] = (uint32_t)((uint32_t)tmp * (uint32_t)cpu.mc[idx][op.m0.y]); break;
+                case MODE_MCTYPE_WIDTH_64: V(op.vdest)._64[idx] = (uint64_t)((uint64_t)tmp * (uint64_t)cpu.mc[idx][op.m0.y]); break;
+            }
+        }
+    }
 }
