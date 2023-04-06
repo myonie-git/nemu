@@ -26,7 +26,7 @@
 #define MX(i) mgpr_x(i)
 #define MY(i) mgpr_y(i)
 
-static void decode_operand_opset(Decode *s, int *tmp1, int* tmp2, int *dest){
+static void decode_operand_opset(Decode *s, uint64_t *tmp1, uint64_t* tmp2, int *dest){
     uint32_t i = s->isa.inst.val;
     *dest = BITS(i, 11, 7);
     int src1 = BITS(i, 19, 15);
