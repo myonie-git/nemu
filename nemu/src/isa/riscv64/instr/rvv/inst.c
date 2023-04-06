@@ -67,7 +67,6 @@ void guv(Decode *s){
   dest = BITS(i, 11, 7);
   vm = BITS(i, 25, 25);
   uint64_t mask = 0;
-  uint64_t imm = 0;
 
   switch(vm){
     case true: mask = cpu.p; break;
