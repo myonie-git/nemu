@@ -1,258 +1,192 @@
-#include <klib-macros.h>
+#include <am.h>
 #include <klib.h>
+#include <klib-macros.h>
 #include <stdarg.h>
 
 #if !defined(__ISA_NATIVE__) || defined(__NATIVE_USE_KLIB__)
 
-static unsigned long long getuint(va_list* ap, int lflag) {
-  if (lflag >= 2) {
-    return va_arg(*ap, unsigned long long);
-  } else if (lflag) {
-    return va_arg(*ap, unsigned long);
-  } else {
-    return va_arg(*ap, unsigned int);
-  }
-}
-static long long getint(va_list* ap, int lflag) {
-  if (lflag >= 2) {
-    return va_arg(*ap, long long);
-  } else if (lflag) {
-    return va_arg(*ap, long);
-  } else {
-    return va_arg(*ap, int);
-  }
-}
-static void printnum(void (*_putch)(char, void*), void* cnt, unsigned int num,
-                     unsigned int base, int width, int padc) {
-  unsigned int result = num;
-  unsigned int mod = 0;
-  if (base == 10) {
-    unsigned int t = __divu10(result);
-    mod = result - __mulu10(t);
-    result = t;
-  } else if (base == 8) {
-    mod = result & 0x7;
-    result = result >> 3;
-  } else {
-    mod = result & 0xF;
-    result = result >> 4;
-  }
+int vsprintf(char*, const char*, va_list);
 
-  // first recursively print all preceding (more significant) digits
-  if (num >= base) {
-    printnum(_putch, cnt, result, base, width - 1, padc);
-  } else {
-    // print any needed pad characters before first digit
-    while (--width > 0) {
-      _putch(padc, cnt);
-    }
+// Maximum buffer: 65536
+char printf_buf[65536];
+
+int printf(const char *fmt, ...) {
+  va_list args;
+  va_start(args, fmt);
+  vsprintf(printf_buf, fmt, args);
+  va_end(args);
+  char *p = printf_buf;
+  while (*p) {
+    putch(*p);
+    p++;
   }
-  // then print this (the least significant) digit
-  _putch("0123456789abcdef"[mod], cnt);
+  return 0;
 }
-static void vprintfmt(void (*_putch)(char, void*), void* cnt, const char* fmt,
-                      va_list ap) {
-  register const char* p;
-  register int ch;
-  unsigned long long num;
-  int base, width, precision, lflag, altflag;
-  while (1) {
-    while ((ch = *(unsigned char*)fmt++) != '%') {
-      if (ch == '\0') {
-        return;
-      }
-      _putch(ch, cnt);
+
+static struct {
+  int lpad;
+  char pad_char;
+} pref;
+
+void sprint_basic_format(char** pout, char** pin, va_list* args) {
+  if (**pin == 's') {
+    char *p = va_arg(*args, char*);
+    while (*p) *(*pout)++ = *p++;
+  } else if (**pin == 'd') {
+    int val = va_arg(*args, int);
+    int f = 1;
+    if (val < 0) f = -1;
+
+    int buf[24] = {0};
+    int i = 0;
+    for (; i < 10 && val; i++) {
+      buf[i] = (val % 10) * f;
+      val /= 10;
     }
 
-    // Process a %-escape sequence
-    char padc = ' ';
-    width = precision = -1;
-    lflag = altflag = 0;
+    if (i == 0) i++;
+    if (f == -1 && pref.pad_char == '0') *(*pout)++ = '-';
+    for (int j = 0; j < pref.lpad - i - (f == -1); j++)
+      *(*pout)++ = pref.pad_char;
+    if (f == -1 && pref.pad_char == ' ') *(*pout)++ = '-';
+    
+    for (i--; i >= 0; i--) {
+      *(*pout)++ = buf[i] + '0';
+    }
+  } else if (**pin == 'u') {
+    unsigned int val = va_arg(*args, unsigned int);
+    int buf[24] = {0};
+    int i = 0;
+    for (; i < 10 && val; i++) {
+      buf[i] = (val % 10);
+      val /= 10;
+    }
+    if (i == 0) i++;
+    for (int j = 0; j < pref.lpad - i; j++)
+      *(*pout)++ = pref.pad_char;
+    for (i--; i >= 0; i--) {
+      *(*pout)++ = buf[i] + '0';
+    }
+  } else if (**pin == 'x') {
+    const char hex_char[16] = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
+    unsigned int val = va_arg(*args, unsigned int);
+    int buf[24] = {0};
+    int i = 0;
+    for (; i < 10 && val; i++) {
+      buf[i] = (val % 16);
+      val /= 16;
+    }
 
-  reswitch:
-    switch (ch = *(unsigned char*)fmt++) {
-      // flag to pad on the right
-      case '-':
-        padc = '-';
-        goto reswitch;
+    if (i == 0) i++;
+    for (int j = 0; j < pref.lpad - i; j++)
+      *(*pout)++ = pref.pad_char;
+    for (i--; i >= 0; i--) {
+      *(*pout)++ = hex_char[buf[i]];
+    }
+  } else if (**pin == 'c') {
+    char val = va_arg(*args, int);
+    *(*pout)++ = val;
+  } else if (**pin == 'p') {
+    *(*pout)++ = '0';
+    *(*pout)++ = 'x';
+    const char hex_char[16] = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
+    unsigned int val = va_arg(*args, unsigned int);
+    int buf[24] = {0};
+    int i = 0;
+    for (; i < 10 && val; i++) {
+      buf[i] = (val % 16);
+      val /= 16;
+    }
 
-      // flag to pad with 0's instead of spaces
-      case '0':
-        padc = '0';
-        goto reswitch;
+    if (i == 0) i++;
+    for (int j = 0; j < pref.lpad - i; j++)
+      *(*pout)++ = pref.pad_char;
+    for (i--; i >= 0; i--) {
+      *(*pout)++ = hex_char[buf[i]];
+    }
+  } else {
+    putch(**pin);
+    assert(false);
+  }
+  (*pin)++;
+}
 
-      // width field
-      case '1' ... '9':
-        for (precision = 0;; ++fmt) {
-          precision = precision * 10 + ch - '0';
-          ch = *fmt;
-          if (ch < '0' || ch > '9') {
-            break;
-          }
-        }
-        goto process_precision;
+int sprint_read_pad(char** pout, char** pin) {
+  int sum = **pin - '0';
+  if (sum < 0 || sum > 9) return -1;
+  (*pin)++;
+  int ans = sprint_read_pad(pout, pin);
+  if (ans != -1) return sum * 10 + ans;
+  return sum;
+}
 
-      case '*':
-        precision = va_arg(ap, int);
-        goto process_precision;
+void sprint_format(char** pout, char** pin, va_list* args) {
+  switch (**pin) {
+    case '%':
+      *(*pout)++ = '%';
+      break;
 
-      case '.':
-        if (width < 0) width = 0;
-        goto reswitch;
+    case '0':
+      (*pin)++;
+      pref.pad_char = '0';
+      sprint_format(pout, pin, args);
+      break;
 
-      case '#':
-        altflag = 1;
-        goto reswitch;
+    case '1' ... '9':
+      pref.lpad = sprint_read_pad(pout, pin);
+      sprint_format(pout, pin, args);
+      break;
 
-      process_precision:
-        if (width < 0) width = precision, precision = -1;
-        goto reswitch;
+    case 'l':
+      (*pin)++;
+      sprint_format(pout, pin, args);
+      break;
 
-      // long flag (doubled for long long)
-      case 'l':
-        lflag++;
-        goto reswitch;
+    default:
+      sprint_basic_format(pout, pin, args);
+  }
+}
 
-      // character
-      case 'c':
-        _putch(va_arg(ap, int), cnt);
-        break;
-      // string
-      case 's':
-        if ((p = va_arg(ap, char*)) == NULL) {
-          p = "(null)";
-        }
-        if (width > 0 && padc != '-') {
-          for (width -= strnlen(p, precision); width > 0; width--) {
-            _putch(padc, cnt);
-          }
-        }
-        for (; (ch = *p++) != '\0' && (precision < 0 || --precision >= 0);
-             width--) {
-          if (altflag && (ch < ' ' || ch > '~')) {
-            _putch('?', cnt);
-          } else {
-            _putch(ch, cnt);
-          }
-        }
-        for (; width > 0; width--) {
-          _putch(' ', cnt);
-        }
-        break;
-
-      // (signed) decimal
-      case 'd':
-        num = getint(&ap, lflag);
-        if ((long long)num < 0) {
-          _putch('-', cnt);
-          num = -(long long)num;
-        }
-        base = 10;
-        goto number;
-      // pointer
-      case 'p':
-        _putch('0', cnt);
-        _putch('x', cnt);
-        num = (unsigned long long)(uintptr_t)va_arg(ap, void*);
-        base = 16;
-        goto number;
-
-      // (unsigned) hexadecimal
-      case 'x':
-        num = getuint(&ap, lflag);
-        base = 16;
-      number:
-        printnum(_putch, cnt, num, base, width, padc);
-        break;
-
-      // escaped '%' character
+int vsprintf(char *out, const char *fmt, va_list args) {
+  char *pout = out;
+  char *pin = (void*)fmt;
+  while (*pin) {
+    pref.lpad = 0;
+    pref.pad_char = ' ';
+    switch (*pin) {
       case '%':
-        _putch(ch, cnt);
-        break;
-
-      // unrecognized escape sequence - just print it literally
+        pin++;
+        sprint_format(&pout, &pin, &args);
       default:
-        _putch('%', cnt);
-        for (fmt--; fmt[-1] != '%'; fmt--) /* do nothing */;
-        break;
+        *pout = *pin;
+        pin++;
+        pout++;
     }
   }
+  
+  *pout = 0;
+  return pout - out;
 }
 
-static void putch_cnt(int ch, int* cnt) {
-  putch(ch);
-  (*cnt)++;
+int sprintf(char *out, const char *fmt, ...) {
+  va_list args;
+  va_start(args, fmt);
+  int len = vsprintf(out, fmt, args);
+  va_end(args);
+  return len;
 }
 
-static int vprintf(const char* fmt, va_list ap) {
-  int cnt = 0;
-  vprintfmt((void*)putch_cnt, &cnt, fmt, ap);
-  return cnt;
+int snprintf(char *out, size_t n, const char *fmt, ...) {
+  // TODO: Limit output size
+  va_list args;
+  va_start(args, fmt);
+  int len = vsprintf(out, fmt, args);
+  va_end(args);
+  return len;
 }
 
-int printf(const char* fmt, ...) {
-  va_list ap;
-  int cnt;
-  va_start(ap, fmt);
-  cnt = vprintf(fmt, ap);
-  va_end(ap);
-  return cnt;
-}
-
-typedef struct {
-  char* buf_s;
-  char* buf_e;
-  int cnt;
-} sprintbuf;
-
-static void putch_str(int ch, sprintbuf* buf) {
-  buf->cnt++;
-  *buf->buf_s++ = ch;
-}
-
-int vsprintf(char* out, const char* fmt, va_list ap) {
-  sprintbuf buf;
-  buf.buf_s = out;
-  buf.buf_e = NULL;  // we are not using this without size specified
-  buf.cnt = 0;
-  vprintfmt((void *)putch_str, &buf, fmt, ap);
-  *(buf.buf_s) = '\0';
-  return buf.cnt;
-}
-
-int sprintf(char* out, const char* fmt, ...) {
-  va_list ap;
-  int cnt;
-  va_start(ap, fmt);
-  cnt = vsprintf(out, fmt, ap);
-  va_end(ap);
-  return cnt;
-}
-
-static void putch_strn(int ch, sprintbuf* buf) {
-  if (buf->buf_s < buf->buf_e) {
-    (buf->cnt)++;
-    *buf->buf_s++ = ch;
-  }
-}
-
-int vsnprintf(char* out, size_t n, const char* fmt, va_list ap) {
-  sprintbuf buf;
-  buf.buf_s = out;
-  buf.buf_e = out + n - 1;
-  buf.cnt = 0;
-  vprintfmt((void*)putch_strn, &buf, fmt, ap);
-  *(buf.buf_s) = '\0';
-  return buf.cnt;
-}
-
-int snprintf(char* out, size_t n, const char* fmt, ...) {
-  va_list ap;
-  int cnt;
-  va_start(ap, fmt);
-  cnt = vsnprintf(out, n, fmt, ap);
-  va_end(ap);
-  return cnt;
+int vsnprintf(char *out, size_t n, const char *fmt, va_list ap) {
+  return 0;
 }
 
 #endif
