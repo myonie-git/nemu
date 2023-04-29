@@ -49,6 +49,8 @@ int rvmc_decode_exec(Decode *s){
   /*decode_operand(s, &dest, &src1, &src2, &imm, concat(TYPE_, type)); */ \
   __VA_ARGS__ ; \
 }
+
+    printf("rvmc\n");
     INSTPAT_START();
     /*OPICC and OPICF*/
 
