@@ -84,7 +84,7 @@ void vld(Decode *s){
         }
         /*TODO: 无符号的导入*/
         /*TODO: 跨符号的导入*/
-        //printf("idx: %d, addr: %lx, Load Value: %d\n", idx, src1 + offset, V(dest)._8[idx]);
+        printf("idx: %d, addr: %lx, Load Value: %d\n", idx, src1 + offset, V(dest)._8[idx]);
         offset += len * stride;
 
     }
@@ -154,7 +154,8 @@ void vsd(Decode *s){
         /*TODO: 无符号的导入*/
         /*TODO: 如何验证指令是否合规？*/
         /*TODO: NFIELDS是否要实现*/
-
+        //printf("idx: %d, addr: %lx, Load Value: %d\n", idx, src1 + offset, V(dest)._8[idx]);
+        
         offset += len * stride ;
     }
     //printf("len is: %d\n strides is: %d\n", len, stride);
