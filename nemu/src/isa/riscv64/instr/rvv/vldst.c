@@ -88,7 +88,7 @@ void vld(Decode *s){
     }
 
     for(int i = 0;i < 64; i++){
-        printf("Load Value %d : %ld\n",i, V(dest)._64[i]);
+        printf("Load Value %d : %lx\n",i, V(dest)._64[i]);
     }
     printf("src1: %lx\n", src1);
     assert(0);
