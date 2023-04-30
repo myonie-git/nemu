@@ -76,10 +76,10 @@ void vld(Decode *s){
         
         if(!vm ||BITS(mask, idx, idx)) {
             switch(width){
-                case WIDTH_8:  V(dest)._64[idx] = (int8_t)Mr(src1 + offset, 1); //Mr已经完成类型转换了，不用我们进行操纵
-                case WIDTH_16: V(dest)._64[idx] = Mr(src1 + offset, 2);
-                case WIDTH_32: V(dest)._64[idx] = Mr(src1 + offset, 4);
-                case WIDTH_64: V(dest)._64[idx] = Mr(src1 + offset, 8);
+                case WIDTH_8:  V(dest)._64[idx] = (int8_t)Mr(src1 + offset, 1); break; //Mr已经完成类型转换了，不用我们进行操纵
+                case WIDTH_16: V(dest)._64[idx] = Mr(src1 + offset, 2); break;
+                case WIDTH_32: V(dest)._64[idx] = Mr(src1 + offset, 4); break;
+                case WIDTH_64: V(dest)._64[idx] = Mr(src1 + offset, 8); break;
             }
         }
         /*TODO: 无符号的导入*/
@@ -144,10 +144,10 @@ void vsd(Decode *s){
         
         if( !vm || BITS(mask, idx, idx)) {
             switch(width){
-                case WIDTH_8:  Mw(src1 + offset, 1, V(dest)._8[idx * 8]); 
-                case WIDTH_16: Mw(src1 + offset, 2, V(dest)._16[idx * 4]);
-                case WIDTH_32: Mw(src1 + offset, 4, V(dest)._32[idx * 2]);
-                case WIDTH_64: Mw(src1 + offset, 8, V(dest)._64[idx]);
+                case WIDTH_8:  Mw(src1 + offset, 1, V(dest)._8[idx * 8]); break;
+                case WIDTH_16: Mw(src1 + offset, 2, V(dest)._16[idx * 4]); break;
+                case WIDTH_32: Mw(src1 + offset, 4, V(dest)._32[idx * 2]); break;
+                case WIDTH_64: Mw(src1 + offset, 8, V(dest)._64[idx]); break;
             }
         }
 
