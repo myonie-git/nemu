@@ -76,7 +76,7 @@ void vld(Decode *s){
         
         if(!vm ||BITS(mask, idx, idx)) {
             switch(width){
-                case WIDTH_8:  V(dest)._64[idx] = Mr(src1 + offset, 1); //Mr已经完成类型转换了，不用我们进行操纵
+                case WIDTH_8:  V(dest)._8[idx] = (int8_t)Mr(src1 + offset, 1); //Mr已经完成类型转换了，不用我们进行操纵
                 case WIDTH_16: V(dest)._64[idx] = Mr(src1 + offset, 2);
                 case WIDTH_32: V(dest)._64[idx] = Mr(src1 + offset, 4);
                 case WIDTH_64: V(dest)._64[idx] = Mr(src1 + offset, 8);
@@ -90,7 +90,7 @@ void vld(Decode *s){
     }
 
     for(int i = 0;i < 64; i++){
-        printf("Load Value %d : %lx\n",i, V(dest)._64[i]);
+        printf("Load Value %d : %d\n",i, V(dest)._8[i]);
     }
     printf("src1: %lx\n", src1);
     assert(0);
