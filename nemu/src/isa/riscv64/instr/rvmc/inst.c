@@ -9,6 +9,10 @@
 #define MODE_MCTYPE_WIDTH_16 1
 #define MODE_MCTYPE_WIDTH_32 2 
 #define MODE_MCTYPE_WIDTH_64 3
+#define MODE_UNSIGNED_MCTYPE_WIDTH_8 4
+#define MODE_UNSIGNED_MCTYPE_WIDTH_16 5
+#define MODE_UNSIGNED_MCTYPE_WIDTH_32 6
+#define MODE_UNSIGNED_MCTYPE_WIDTH_64 7
 
 #define OPICC 0
 #define OPFCC 1
@@ -84,10 +88,14 @@ void madd(Decode *s, int TYPE){
     for(int idx = op.m0.x; idx < cpu.mvl.xlen + op.m0.x; idx++){
         if(!op.vm || BITS(mask, idx, idx)){
             switch(cpu.mctype){
-                case MODE_MCTYPE_WIDTH_8: V(op.vdest)._64[idx] = (uint8_t)(cpu.mc[op.m0.x + idx][op.m0.y] + cpu.mc[op.m1.x + idx][op.m1.y]); break;
-                case MODE_MCTYPE_WIDTH_16: V(op.vdest)._64[idx] = (uint16_t)(cpu.mc[op.m0.x + idx][op.m0.y] + cpu.mc[op.m1.x + idx][op.m1.y]); break;
-                case MODE_MCTYPE_WIDTH_32: V(op.vdest)._64[idx] = (uint32_t)(cpu.mc[op.m0.x + idx][op.m0.y] + cpu.mc[op.m1.x + idx][op.m1.y]); break;
-                case MODE_MCTYPE_WIDTH_64: V(op.vdest)._64[idx] = (uint64_t)(cpu.mc[op.m0.x + idx][op.m0.y] + cpu.mc[op.m1.x + idx][op.m1.y]); break;
+                case MODE_MCTYPE_WIDTH_8: V(op.vdest)._64[idx] = (int8_t)(cpu.mc[op.m0.x + idx][op.m0.y] + cpu.mc[op.m1.x + idx][op.m1.y]); break;
+                case MODE_MCTYPE_WIDTH_16: V(op.vdest)._64[idx] = (int16_t)(cpu.mc[op.m0.x + idx][op.m0.y] + cpu.mc[op.m1.x + idx][op.m1.y]); break;
+                case MODE_MCTYPE_WIDTH_32: V(op.vdest)._64[idx] = (int32_t)(cpu.mc[op.m0.x + idx][op.m0.y] + cpu.mc[op.m1.x + idx][op.m1.y]); break;
+                case MODE_MCTYPE_WIDTH_64: V(op.vdest)._64[idx] = (int64_t)(cpu.mc[op.m0.x + idx][op.m0.y] + cpu.mc[op.m1.x + idx][op.m1.y]); break;
+                case MODE_UNSIGNED_MCTYPE_WIDTH_8: V(op.vdest)._64[idx] = (uint8_t)(cpu.mc[op.m0.x + idx][op.m0.y] + cpu.mc[op.m1.x + idx][op.m1.y]); break;
+                case MODE_UNSIGNED_MCTYPE_WIDTH_16: V(op.vdest)._64[idx] = (uint16_t)(cpu.mc[op.m0.x + idx][op.m0.y] + cpu.mc[op.m1.x + idx][op.m1.y]); break;
+                case MODE_UNSIGNED_MCTYPE_WIDTH_32: V(op.vdest)._64[idx] = (uint32_t)(cpu.mc[op.m0.x + idx][op.m0.y] + cpu.mc[op.m1.x + idx][op.m1.y]); break;
+                case MODE_UNSIGNED_MCTYPE_WIDTH_64: V(op.vdest)._64[idx] = (uint64_t)(cpu.mc[op.m0.x + idx][op.m0.y] + cpu.mc[op.m1.x + idx][op.m1.y]); break;        
             }
         }
     }
@@ -110,10 +118,15 @@ void msub(Decode *s, int TYPE){
     for(int idx = op.m0.x; idx < cpu.mvl.xlen + op.m0.x; idx++){
         if(!op.vm || BITS(mask, idx, idx)){
             switch(cpu.mctype){
-                case MODE_MCTYPE_WIDTH_8: V(op.vdest)._64[idx] = (uint8_t)(cpu.mc[op.m0.x + idx][op.m0.y] - cpu.mc[op.m1.x + idx][op.m1.y]); break;
-                case MODE_MCTYPE_WIDTH_16: V(op.vdest)._64[idx] = (uint16_t)(cpu.mc[op.m0.x + idx][op.m0.y] - cpu.mc[op.m1.x + idx][op.m1.y]); break;
-                case MODE_MCTYPE_WIDTH_32: V(op.vdest)._64[idx] = (uint32_t)(cpu.mc[op.m0.x + idx][op.m0.y] - cpu.mc[op.m1.x + idx][op.m1.y]); break;
-                case MODE_MCTYPE_WIDTH_64: V(op.vdest)._64[idx] = (uint64_t)(cpu.mc[op.m0.x + idx][op.m0.y] - cpu.mc[op.m1.x + idx][op.m1.y]); break;
+                case MODE_MCTYPE_WIDTH_8: V(op.vdest)._64[idx] = (int8_t)(cpu.mc[op.m0.x + idx][op.m0.y] - cpu.mc[op.m1.x + idx][op.m1.y]); break;
+                case MODE_MCTYPE_WIDTH_16: V(op.vdest)._64[idx] = (int16_t)(cpu.mc[op.m0.x + idx][op.m0.y] - cpu.mc[op.m1.x + idx][op.m1.y]); break;
+                case MODE_MCTYPE_WIDTH_32: V(op.vdest)._64[idx] = (int32_t)(cpu.mc[op.m0.x + idx][op.m0.y] - cpu.mc[op.m1.x + idx][op.m1.y]); break;
+                case MODE_MCTYPE_WIDTH_64: V(op.vdest)._64[idx] = (int64_t)(cpu.mc[op.m0.x + idx][op.m0.y] - cpu.mc[op.m1.x + idx][op.m1.y]); break;
+                case MODE_UNSIGNED_MCTYPE_WIDTH_8: V(op.vdest)._64[idx] = (uint8_t)(cpu.mc[op.m0.x + idx][op.m0.y] - cpu.mc[op.m1.x + idx][op.m1.y]); break;
+                case MODE_UNSIGNED_MCTYPE_WIDTH_16: V(op.vdest)._64[idx] = (uint16_t)(cpu.mc[op.m0.x + idx][op.m0.y] - cpu.mc[op.m1.x + idx][op.m1.y]); break;
+                case MODE_UNSIGNED_MCTYPE_WIDTH_32: V(op.vdest)._64[idx] = (uint32_t)(cpu.mc[op.m0.x + idx][op.m0.y] - cpu.mc[op.m1.x + idx][op.m1.y]); break;
+                case MODE_UNSIGNED_MCTYPE_WIDTH_64: V(op.vdest)._64[idx] = (uint64_t)(cpu.mc[op.m0.x + idx][op.m0.y] - cpu.mc[op.m1.x + idx][op.m1.y]); break;
+            
             }
         }
     }
@@ -143,10 +156,15 @@ void mdot(Decode *s, int TYPE){
                     case OPICI: tmp = op.imm              ; break;
                 }
                 switch(cpu.mctype){
-                    case MODE_MCTYPE_WIDTH_8:  V(op.vdest)._64[idx] += (uint8_t)((uint8_t)cpu.mc[idx][idy] * (uint8_t)tmp); break;
-                    case MODE_MCTYPE_WIDTH_16: V(op.vdest)._64[idx] += (uint16_t)((uint16_t)cpu.mc[idx][idy] * (uint16_t)tmp); break;
-                    case MODE_MCTYPE_WIDTH_32: V(op.vdest)._64[idx] += (uint32_t)((uint32_t)cpu.mc[idx][idy] * (uint32_t)tmp); break;
-                    case MODE_MCTYPE_WIDTH_64: V(op.vdest)._64[idx] += (uint64_t)((uint64_t)cpu.mc[idx][idy] * (uint64_t)tmp); break;
+                    case MODE_MCTYPE_WIDTH_8:  V(op.vdest)._64[idx] += (int8_t)((int8_t)cpu.mc[idx][idy] * (int8_t)tmp); break;
+                    case MODE_MCTYPE_WIDTH_16: V(op.vdest)._64[idx] += (int16_t)((int16_t)cpu.mc[idx][idy] * (int16_t)tmp); break;
+                    case MODE_MCTYPE_WIDTH_32: V(op.vdest)._64[idx] += (int32_t)((int32_t)cpu.mc[idx][idy] * (int32_t)tmp); break;
+                    case MODE_MCTYPE_WIDTH_64: V(op.vdest)._64[idx] += (int64_t)((int64_t)cpu.mc[idx][idy] * (int64_t)tmp); break;
+                    case MODE_UNSIGNED_MCTYPE_WIDTH_8:  V(op.vdest)._64[idx] += (uint8_t)((uint8_t)cpu.mc[idx][idy] * (uint8_t)tmp); break;
+                    case MODE_UNSIGNED_MCTYPE_WIDTH_16: V(op.vdest)._64[idx] += (uint16_t)((uint16_t)cpu.mc[idx][idy] * (uint16_t)tmp); break;
+                    case MODE_UNSIGNED_MCTYPE_WIDTH_32: V(op.vdest)._64[idx] += (uint32_t)((uint32_t)cpu.mc[idx][idy] * (uint32_t)tmp); break;
+                    case MODE_UNSIGNED_MCTYPE_WIDTH_64: V(op.vdest)._64[idx] += (uint64_t)((uint64_t)cpu.mc[idx][idy] * (uint64_t)tmp); break;
+                
                 }
             }
         }
@@ -177,10 +195,15 @@ void mld(Decode* s, int TYPE){
                 case OPICI: tmp = op.imm              ; break;
             }
             switch(cpu.mctype){
-                case MODE_MCTYPE_WIDTH_8: cpu.mc[op.m0.x][idy] = (uint8_t)tmp; break;
-                case MODE_MCTYPE_WIDTH_16: cpu.mc[op.m0.x][idy] = (uint16_t)tmp; break;
-                case MODE_MCTYPE_WIDTH_32: cpu.mc[op.m0.x][idy] = (uint32_t)tmp; break;
-                case MODE_MCTYPE_WIDTH_64: cpu.mc[op.m0.x][idy] = (uint64_t)tmp; break;
+                case MODE_MCTYPE_WIDTH_8: cpu.mc[op.m0.x][idy] = (int8_t)tmp; break;
+                case MODE_MCTYPE_WIDTH_16: cpu.mc[op.m0.x][idy] = (int16_t)tmp; break;
+                case MODE_MCTYPE_WIDTH_32: cpu.mc[op.m0.x][idy] = (int32_t)tmp; break;
+                case MODE_MCTYPE_WIDTH_64: cpu.mc[op.m0.x][idy] = (int64_t)tmp; break;
+                case MODE_UNSIGNED_MCTYPE_WIDTH_8: cpu.mc[op.m0.x][idy] = (uint8_t)tmp; break;
+                case MODE_UNSIGNED_MCTYPE_WIDTH_16: cpu.mc[op.m0.x][idy] = (uint16_t)tmp; break;
+                case MODE_UNSIGNED_MCTYPE_WIDTH_32: cpu.mc[op.m0.x][idy] = (uint32_t)tmp; break;
+                case MODE_UNSIGNED_MCTYPE_WIDTH_64: cpu.mc[op.m0.x][idy] = (uint64_t)tmp; break;
+            
             }
         }
     }
@@ -207,10 +230,14 @@ void mewmul(Decode *s, int type){
     for(int idx = op.m0.x; idx < op.m0.x + cpu.mvl.xlen; idx++){
         if(!op.vm || BITS(mask, idx, idx)){
             switch(cpu.mctype){
-                case MODE_MCTYPE_WIDTH_8 : V(op.vdest)._64[idx] = (uint8_t)((uint8_t)tmp * (uint8_t)cpu.mc[idx][op.m0.y]); break;
-                case MODE_MCTYPE_WIDTH_16: V(op.vdest)._64[idx] = (uint16_t)((uint16_t)tmp * (uint16_t)cpu.mc[idx][op.m0.y]); break;
-                case MODE_MCTYPE_WIDTH_32: V(op.vdest)._64[idx] = (uint32_t)((uint32_t)tmp * (uint32_t)cpu.mc[idx][op.m0.y]); break;
-                case MODE_MCTYPE_WIDTH_64: V(op.vdest)._64[idx] = (uint64_t)((uint64_t)tmp * (uint64_t)cpu.mc[idx][op.m0.y]); break;
+                case MODE_MCTYPE_WIDTH_8 : V(op.vdest)._64[idx] = (int8_t)((int8_t)tmp * (int8_t)cpu.mc[idx][op.m0.y]); break;
+                case MODE_MCTYPE_WIDTH_16: V(op.vdest)._64[idx] = (int16_t)((int16_t)tmp * (int16_t)cpu.mc[idx][op.m0.y]); break;
+                case MODE_MCTYPE_WIDTH_32: V(op.vdest)._64[idx] = (int32_t)((int32_t)tmp * (int32_t)cpu.mc[idx][op.m0.y]); break;
+                case MODE_MCTYPE_WIDTH_64: V(op.vdest)._64[idx] = (int64_t)((int64_t)tmp * (int64_t)cpu.mc[idx][op.m0.y]); break;
+                case MODE_UNSIGNED_MCTYPE_WIDTH_8 : V(op.vdest)._64[idx] = (uint8_t)((uint8_t)tmp * (uint8_t)cpu.mc[idx][op.m0.y]); break;
+                case MODE_UNSIGNED_MCTYPE_WIDTH_16: V(op.vdest)._64[idx] = (uint16_t)((uint16_t)tmp * (uint16_t)cpu.mc[idx][op.m0.y]); break;
+                case MODE_UNSIGNED_MCTYPE_WIDTH_32: V(op.vdest)._64[idx] = (uint32_t)((uint32_t)tmp * (uint32_t)cpu.mc[idx][op.m0.y]); break;
+                case MODE_UNSIGNED_MCTYPE_WIDTH_64: V(op.vdest)._64[idx] = (uint64_t)((uint64_t)tmp * (uint64_t)cpu.mc[idx][op.m0.y]); break;
             }
         }
     }

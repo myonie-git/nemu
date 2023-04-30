@@ -37,7 +37,6 @@
 
 谓词寄存器沿用RV64V中关于谓词寄存器中的定义，其长度为XLEN位，谓词寄存器在本架构中的主要用途是[忆阻器加法 madd](#331-忆阻器加法指令-madd)的快速导入。具体的使用样例可以参照[残差连接 Residual](#44-残差链接residual)。
 
-
 ### 2.5 小数计算
 
 本架构计划实现定点计算而非浮点计算，为了保证神经网络的计算在可计算范围内，因此，我们对神经网络采用量化处理。
@@ -61,11 +60,11 @@
 忆阻器长度寄存器，用于记录忆阻器中进行操作的元素类型,未来可能也会计算长度以及范围等等。目前取值设置与vsew相同。
 
 | mctype | 元素类型 |
-| ----- | -------- |
-| 0     | 8        |
-| 1     | 16       |
-| 2     | 32       |
-| 3     | 64       |
+| ------ | -------- |
+| 0      | 8        |
+| 1      | 16       |
+| 2      | 32       |
+| 3      | 64       |
 
 其余编码保留，用于日后进行扩展
 
@@ -78,7 +77,6 @@
 ### 2.10 向量起始寄存器vstart
 
 向量起始寄存器vstart用于记录向量寄存器中的起始位置，向量起始寄存器的长度为64位，其取值范围为0~XLEN-1。
-
 
 ## 3. RV64MC Instruction Set
 
@@ -134,7 +132,6 @@ RV64MC使用了OP-MC(0001011)的opcode编码空间，指令格式与RV64V基本�
 
 具体的指令格式编码请见[指令说明](./RV64MC-Instr.xlsx)
 
-
 ### 3.2 忆阻器载入指令
 
 #### 3.2.1 忆阻器载入指令mld
@@ -142,26 +139,23 @@ RV64MC使用了OP-MC(0001011)的opcode编码空间，指令格式与RV64V基本�
 - 指令格式：mld ms1, vs1
 - 指令功能：将vs1向量寄存器中的数据导入到忆阻器m0的位置中
 - 指令编码：TODO()
-    - opcode: OP-MC
-    - funct3: OPICV, OPICI, OPICX
-    - funct6: 000010
-    
 
+  - opcode: OP-MC
+  - funct3: OPICV, OPICI, OPICX
+  - funct6: 000010
 - 指令说明：导入向量的长度由忆阻器位置寄存器决定，导入向量的行选通由谓词寄存器决定。
 
 ### 3.3 忆阻器计算指令
-
-
 
 #### 3.3.1 忆阻器加法指令 madd
 
 - 指令格式：madd vd, ms1, ms2
 - 指令功能：将位于忆阻器中ms1和ms2位置的数据相加，并将结果保存到vd中
 - 指令编码：TODO()
-    - opcode: OP-MC
-    - funct3: OPICC, OPFCC
-    - funct6: 000000
 
+  - opcode: OP-MC
+  - funct3: OPICC, OPFCC
+  - funct6: 000000
 - 指令说明：ms1与ms2要求位置以及列宽相同，在进行运算时，硬件会对此进行检查，若二者不相同，则会掉入trap中进行处理。
 
 > TODO: 本指令集架构尚未实现特权指令架构
@@ -171,8 +165,8 @@ RV64MC使用了OP-MC(0001011)的opcode编码空间，指令格式与RV64V基本�
 - 指令格式：msub vd, ms1, ms2
 - 指令功能：将位于忆阻器中ms1和ms2位置的数据相减，并将结果保存到vd中
 - 指令编码：TODO()
-    - opcode: OP-MC
-    - funct3: OPICC, OPFCC
+  - opcode: OP-MC
+  - funct3: OPICC, OPFCC
     = funct6: 000001
 - 指令说明：ms1与ms2要求位置以及列宽相同，在进行运算时，硬件会对此进行检查，若二者不相同，则会掉入trap中进行处理。
 
@@ -183,9 +177,9 @@ RV64MC使用了OP-MC(0001011)的opcode编码空间，指令格式与RV64V基本�
 - 指令格式：mewmul vd, ms1, vs1
 - 指令功能：将ms1与vs1进行elemenwise的乘法，并将计算结果保存到vs1中
 - 指令编码：TODO()
-    - opcode:OP-MC
-    - funct3: OPICV, OPICI, OPICX
-    - funct6: 000010
+  - opcode:OP-MC
+  - funct3: OPICV, OPICI, OPICX
+  - funct6: 000010
 - 指令说明：计算的长度由忆阻器位置寄存器设置；如果m0的宽度不为1，那么会掉入trap；向量的选通由谓词寄存器决定
 
 #### 3.3.4 忆阻器点积指令 mdot
@@ -193,9 +187,9 @@ RV64MC使用了OP-MC(0001011)的opcode编码空间，指令格式与RV64V基本�
 - 指令格式：mdot, vd, ms1, vs1
 - 指令功能：计算ms1与vs1的点击
 - 指令编码：TODO()
-    - opcode: OP-MC
-    - funct3: OPICV, OPICI, OPICX
-    - funct6: 000000
+  - opcode: OP-MC
+  - funct3: OPICV, OPICI, OPICX
+  - funct6: 000000
 - 指令说明：计算的长度由忆阻器位置寄存器设置；如果忆阻器寄存器中的行长度大于可用的行长度，那么就会掉入trap；向量的选通由谓词寄存器决定
 
 ### 3.4 SNN相关指令
@@ -211,16 +205,16 @@ RV64MC使用了OP-MC(0001011)的opcode编码空间，指令格式与RV64V基本�
 - 指令格式：vgtm vd, vs1, vs2
 - 指令功能：比较vs1和vs2每个向量的大小，并把二者中元素较大的数据保存到vd中
 - 指令编码：
-    - opcode: OP-V
-    - funct3: OPIVV, OPIVX, OPIVI
-    - funct6: 001000
+
+  - opcode: OP-V
+  - funct3: OPIVV, OPIVX, OPIVI
+  - funct6: 001000
 
   vgtm提供OPIVV，OPIVX， OPIVI三种编码方式：
 
   <div align=center>
     <img src=OP-V.jpg style="zoom:60%;"/>
     </div>
-    
 - 指令说明：本指令主要用于最大池化层的相关操作，具体操作如下图所示：
 
 <div align=center>
@@ -237,32 +231,30 @@ RV64MC使用了OP-MC(0001011)的opcode编码空间，指令格式与RV64V基本�
 - 指令功能：生成单位向量，将rs1的单位向量导入到vd中
 - 指令编码：
 
-    - opcode: OP-V
-    - funct3: OPIVV, OPIVX, OPIVV
-    - funct6: 001101
-
+  - opcode: OP-V
+  - funct3: OPIVV, OPIVX, OPIVV
+  - funct6: 001101
 - 指令说明：生成向量的长度由setvl决定
 
 > TODO：指令编码存在部分空间没有利用上
 
-#### 3.5.3 忆阻器位置寄存器设置指令 
+#### 3.5.3 忆阻器位置寄存器设置指令
 
 - 指令格式：set{x,i}{x,i} rd, {rs1, imm}, {rs2, imm}
 - 指令功能：设置忆阻器位置寄存器的x坐标/y坐标/列宽度/行长度设置为rs2
 - 指令编码：TODO()
-    - opcode: OP-MC
-    - funct3: OPSET
-    - funct6: funct4 + funct2
-        - funct4: 指令编码，具体指令编码见[RV64MC-Instr.xlsx](./RV64MC-Instr.xlsx)
-        - funct2 : 指令如下：
+  - opcode: OP-MC
+  - funct3: OPSET
+  - funct6: funct4 + funct2
+    - funct4: 指令编码，具体指令编码见[RV64MC-Instr.xlsx](./RV64MC-Instr.xlsx)
+    - funct2 : 指令如下：
+      | funct2 | src1 | src2 |
+      | ------ | ---- | ---- |
+      | 00     | imm  | imm  |
+      | 01     | imm  | reg  |
+      | 10     | reg  | imm  |
+      | 11     | reg  | reg  |
 
-            | funct2 | src1 | src2 |
-            |-|-|-|
-            |00|imm|imm|
-            |01|imm|reg|
-            |10|reg|imm|
-            |11|reg|reg|
-            
 #### 3.5.4 查找表指令 lut
 
 - 指令格式： lut vd, vs1, fun_op
@@ -270,9 +262,9 @@ RV64MC使用了OP-MC(0001011)的opcode编码空间，指令格式与RV64V基本�
 _ 指令功能：对fun_op功能对应的函数将fun_op(vs1)的输出结果保存在vd中。
 
 - 指令编码：
-    - opcode: OP-V
-    - funct3: OPIVI, OPIVX
-    - funct6: 010101
+  - opcode: OP-V
+  - funct3: OPIVI, OPIVX
+  - funct6: 010101
 - 指令说明：fun_op代表所需要函数查找表的opcode，暂定relu为0
 
 ### 3.6 RV64V 保留指令
@@ -352,7 +344,14 @@ nf字段用于表示nfileds编码，用于对要加载和存储的向量寄存�
 
 > TODO: 本项目中，我们暂时不使用动态的范围，因此，我们暂时不使用nf字段，而是直接将nf字段设置为0，即只能导入一个向量寄存器。
 
-#### 3.6.7 其他指令
+#### 3.6.7 mew字段
+
+mew字段是为了用于之后的位扩展，在这里我们使用mew指令来表示有符号和无符号数的导入
+
+- mew为1时，代表有符号数
+- mew为0时，代表为无符号数
+
+#### 3.6.8 其他指令
 
 > TODO: 可以设置一个v(i) = f(i) 的相关指令？暂不实现，因为用不上
 

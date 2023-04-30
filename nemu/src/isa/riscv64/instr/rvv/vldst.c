@@ -76,9 +76,9 @@ void vld(Decode *s){
         
         if(!vm ||BITS(mask, idx, idx)) {
             switch(width){
-                case WIDTH_8:  V(dest)._64[idx] = Mr(src1 + offset, 1); //Mr已经进行完类型转换了，不用我们进行操纵
-                case WIDTH_16: V(dest)._64[idx] = Mr(src1 + offset, 2);
-                case WIDTH_32: V(dest)._64[idx] = Mr(src1 + offset, 4);
+                case WIDTH_8:  V(dest)._8[idx] = Mr(src1 + offset, 1); //Mr已经完成类型转换了，不用我们进行操纵
+                case WIDTH_16: V(dest)._16[idx] = Mr(src1 + offset, 2);
+                case WIDTH_32: V(dest)._32[idx] = Mr(src1 + offset, 4);
                 case WIDTH_64: V(dest)._64[idx] = Mr(src1 + offset, 8);
             }
         }

@@ -13,6 +13,14 @@
 #define OPFVF 5
 #define OPMVX 6
 
+#define MODE_MCTYPE_WIDTH_8 0
+#define MODE_MCTYPE_WIDTH_16 1
+#define MODE_MCTYPE_WIDTH_32 2 
+#define MODE_MCTYPE_WIDTH_64 3
+#define MODE_UNSIGNED_MCTYPE_WIDTH_8 4
+#define MODE_UNSIGNED_MCTYPE_WIDTH_16 5
+#define MODE_UNSIGNED_MCTYPE_WIDTH_32 6
+#define MODE_UNSIGNED_MCTYPE_WIDTH_64 7
 
 enum{
   TYPE_N,
@@ -47,8 +55,18 @@ void vgtm(Decode *s){
 
   for(int idx = cpu.vstart; idx  < cpu.vl; idx++){
     if(!vm || BITS(mask, idx, idx)){
-      uint64_t tmp = (funct3 == OPIVV) ? V(rs1)._64[idx] : imm;
-      V(dest)._64[idx] = V(rs2)._64[idx] > tmp ? V(rs2)._64[idx] : tmp;
+      uint64_t tmp = (funct3 == OPIVV) ? V(rs2)._64[idx] : imm;
+      switch(cpu.mctype){
+        case MODE_MCTYPE_WIDTH_8: V(dest)._64[idx] = (int8_t)V(rs2)._8[idx] > (int8_t)tmp ? V(rs2)._64[idx] : tmp;
+        case MODE_MCTYPE_WIDTH_16: V(dest)._64[idx] = (int16_t)V(rs2)._16[idx] > (int16_t)tmp ? V(rs2)._64[idx] : tmp;
+        case MODE_MCTYPE_WIDTH_32: V(dest)._64[idx] = (int8_t)V(rs2)._32[idx] > (int32_t)tmp ? V(rs2)._64[idx] : tmp;
+        case MODE_MCTYPE_WIDTH_64: V(dest)._64[idx] = (int16_t)V(rs2)._64[idx] > (int64_t)tmp ? V(rs2)._64[idx] : tmp;
+        case MODE_UNSIGNED_MCTYPE_WIDTH_8: V(dest)._64[idx] = (uint8_t)V(rs2)._8[idx] > (uint8_t)tmp ? V(rs2)._64[idx] : tmp;
+        case MODE_UNSIGNED_MCTYPE_WIDTH_16: V(dest)._64[idx] = (uint16_t)V(rs2)._16[idx] > (uint16_t)tmp ? V(rs2)._64[idx] : tmp;
+        case MODE_UNSIGNED_MCTYPE_WIDTH_32: V(dest)._64[idx] = (uint8_t)V(rs2)._32[idx] > (uint32_t)tmp ? V(rs2)._64[idx] : tmp;
+        case MODE_UNSIGNED_MCTYPE_WIDTH_64: V(dest)._64[idx] = (uint16_t)V(rs2)._64[idx] > (uint64_t)tmp ? V(rs2)._64[idx] : tmp;     
+      }
+      //V(dest)._64[idx] = V(rs2)._64[idx] > tmp ? V(rs2)._64[idx] : tmp;
     }
   }
 
