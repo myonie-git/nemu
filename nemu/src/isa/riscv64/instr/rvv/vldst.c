@@ -84,14 +84,11 @@ void vld(Decode *s){
         }
         /*TODO: 无符号的导入*/
         /*TODO: 跨符号的导入*/
-        printf("idx: %d, addr: %lx\n", idx, src1 + offset);
+        printf("idx: %d, addr: %lx\n, Load Value: %d", idx, src1 + offset, V(dest)._8[i]);
         offset += len * stride;
 
     }
 
-    for(int i = 0;i < 64; i++){
-        printf("Load Value %d : %d\n",i, V(dest)._8[i]);
-    }
     printf("src1: %lx\n", src1);
     //assert(0);
     return;
