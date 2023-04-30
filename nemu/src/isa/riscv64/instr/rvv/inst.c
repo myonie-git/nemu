@@ -67,8 +67,8 @@ void vgtm(Decode *s){
         case MODE_UNSIGNED_MCTYPE_WIDTH_64: V(dest)._64[idx] = (uint64_t)V(rs2)._64[idx] > (uint64_t)tmp ? V(rs2)._64[idx] : tmp;     
       }
       //V(dest)._64[idx] = V(rs2)._64[idx] > tmp ? V(rs2)._64[idx] : tmp;
-      printf("R(rs1): %ld, rs1: %d, rs2: %d, imm:%ld ",R(rs1),rs1, rs2, imm);
-      printf("tmp: %d, V2: %d\n", (uint8_t)tmp, (int8_t)V(rs2)._8[idx * 8]);
+      //printf("R(rs1): %ld, rs1: %d, rs2: %d, imm:%ld ",R(rs1),rs1, rs2, imm);
+      //printf("tmp: %d, V2: %d\n", (uint8_t)tmp, (int8_t)V(rs2)._8[idx * 8]);
     }
   }
 
