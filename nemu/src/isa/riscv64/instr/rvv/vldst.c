@@ -149,8 +149,10 @@ void vsd(Decode *s){
         /*TODO: 无符号的导入*/
         /*TODO: 如何验证指令是否合规？*/
         /*TODO: NFIELDS是否要实现*/
+
         offset += len * stride ;
     }
+    printf("len is: \n strides is: \n", len, stride);
 
     return;
 }
