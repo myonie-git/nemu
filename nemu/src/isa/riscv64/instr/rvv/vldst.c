@@ -54,10 +54,10 @@ void vld(Decode *s){
     }
 
     switch(width){
-        case WIDTH_8: len = 8; break; 
-        case WIDTH_16: len = 16; break;
-        case WIDTH_32: len = 32; break;
-        case WIDTH_64: len = 64; break;
+        case WIDTH_8: len = 1; break; 
+        case WIDTH_16: len = 2; break;
+        case WIDTH_32: len = 4; break;
+        case WIDTH_64: len = 8; break;
         default: assert(0); break;
     }
 
