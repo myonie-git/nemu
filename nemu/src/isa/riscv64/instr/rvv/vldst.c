@@ -84,7 +84,9 @@ void vld(Decode *s){
         }
         /*TODO: 无符号的导入*/
         /*TODO: 跨符号的导入*/
+        printf("idx: %d, addr: %lx\n", idx, offset);
         offset += len * stride;
+
     }
 
     for(int i = 0;i < 64; i++){
