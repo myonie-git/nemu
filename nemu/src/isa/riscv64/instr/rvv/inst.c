@@ -55,7 +55,7 @@ void vgtm(Decode *s){
 
   for(int idx = cpu.vstart; idx  < cpu.vl; idx++){
     if(!vm || BITS(mask, idx, idx)){
-      uint64_t tmp = (funct3 == OPIVV) ? V(rs2)._64[idx] : imm;
+      uint64_t tmp = (funct3 == OPIVV) ? V(rs1)._64[idx] : imm;
       switch(cpu.mctype){
         case MODE_MCTYPE_WIDTH_8: V(dest)._64[idx] = (int8_t)V(rs2)._8[idx] > (int8_t)tmp ? V(rs2)._64[idx] : tmp;
         case MODE_MCTYPE_WIDTH_16: V(dest)._64[idx] = (int16_t)V(rs2)._16[idx] > (int16_t)tmp ? V(rs2)._64[idx] : tmp;
