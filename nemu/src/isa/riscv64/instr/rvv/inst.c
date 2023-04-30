@@ -61,7 +61,7 @@ void vgtm(Decode *s){
         case MODE_MCTYPE_WIDTH_16: V(dest)._64[idx] = (int16_t)V(rs2)._16[idx * 4] > (int16_t)tmp ? V(rs2)._64[idx] : tmp;
         case MODE_MCTYPE_WIDTH_32: V(dest)._64[idx] = (int32_t)V(rs2)._32[idx * 2] > (int32_t)tmp ? V(rs2)._64[idx] : tmp;
         case MODE_MCTYPE_WIDTH_64: V(dest)._64[idx] = (int64_t)V(rs2)._64[idx] > (int64_t)tmp ? V(rs2)._64[idx] : tmp;
-        case MODE_UNSIGNED_MCTYPE_WIDTH_8: V(dest)._64[idx] = (uint8_t)V(rs2)._8[idx * 8] > (uint8_t)tmp ? V(rs2)._64[idx] : tmp;
+        //case MODE_UNSIGNED_MCTYPE_WIDTH_8: V(dest)._64[idx] = (uint8_t)V(rs2)._8[idx * 8] > (uint8_t)tmp ? V(rs2)._64[idx] : tmp;
         case MODE_UNSIGNED_MCTYPE_WIDTH_16: V(dest)._64[idx] = (uint16_t)V(rs2)._16[idx * 4] > (uint16_t)tmp ? V(rs2)._64[idx] : tmp;
         case MODE_UNSIGNED_MCTYPE_WIDTH_32: V(dest)._64[idx] = (uint32_t)V(rs2)._32[idx * 2] > (uint32_t)tmp ? V(rs2)._64[idx] : tmp;
         case MODE_UNSIGNED_MCTYPE_WIDTH_64: V(dest)._64[idx] = (uint64_t)V(rs2)._64[idx] > (uint64_t)tmp ? V(rs2)._64[idx] : tmp;     
