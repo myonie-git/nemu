@@ -69,7 +69,7 @@ void vld(Decode *s){
     //lumop
     //mew
     //
-    if(cpu.vstart + cpu.vl >= MCLEN) assert(0); 
+    if(cpu.vstart + cpu.vl > MCLEN) assert(0); 
     /*TODO: 带nfield的校验*/
     int offset = 0;
     for(int idx = cpu.vstart; idx < cpu.vl; idx++){
