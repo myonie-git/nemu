@@ -152,7 +152,7 @@ void vsd(Decode *s){
 
         offset += len * stride ;
     }
-    printf("len is: \n strides is: \n", len, stride);
+    printf("len is: %d\n strides is: %d\n", len, stride);
 
     return;
 }
