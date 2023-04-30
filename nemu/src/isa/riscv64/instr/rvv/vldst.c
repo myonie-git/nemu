@@ -86,6 +86,11 @@ void vld(Decode *s){
         /*TODO: 跨符号的导入*/
         offset += len * stride;
     }
+
+    for(int i = 0;i < 64; i++){
+        printf("Load Value %d : %d\n",i, V(dest)._64[i]);
+    }
+
     return;
 }
 
