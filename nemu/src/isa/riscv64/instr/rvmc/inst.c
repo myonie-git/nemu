@@ -226,7 +226,7 @@ void mld(Decode* s, int TYPE){
             
             }
         }
-        printf("mc[%d][%d]: %llx", op.m0.x, idy, cpu.mc[op.m0.x][idy]);
+        printf("mc[%d][%d]: %lx", op.m0.x, idy, cpu.mc[op.m0.x][idy]);
     }
 
 
