@@ -235,9 +235,9 @@ void mld(Decode* s, int TYPE){
 
 }
 
-void mewmul(Decode *s, int type){
+void mewmul(Decode *s, int TYPE){
     RV64MC_Operand op;
-    decode_operand_rvmc(s, &op, type);
+    decode_operand_rvmc(s, &op, TYPE);
     uint64_t mask = 0, mask_col = 0; 
     switch(op.vm){
         case true: mask = cpu.p; break;
@@ -252,7 +252,7 @@ void mewmul(Decode *s, int type){
     if(op.m0.y + cpu.mvl.ylen > MCLEN) assert(0);
     if(cpu.mvl.ylen > 1) assert(0);
     uint64_t tmp = 0;
-    switch(type){
+    switch(TYPE){
         case OPICV: tmp = V(op.vsrc2)._64[op.m0.y]; break;
         case OPICX: tmp = op.rs2              ; break;
         case OPICI: tmp = op.imm              ; break;
