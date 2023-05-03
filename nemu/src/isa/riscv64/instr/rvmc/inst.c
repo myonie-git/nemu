@@ -38,6 +38,7 @@
 typedef struct {
     int vdest, vsrc2;
     int vm;
+    int vm_col;
     word_t rs2, imm;
     MC_POSITION_REG m0, m1;
 } RV64MC_Operand;
@@ -57,6 +58,7 @@ static void decode_operand_rvmc(Decode *s, RV64MC_Operand* op, int type){
     srcC(op->m0, src1);
     srcV(op->vdest, BITS(i, 11, 7));
     
+    op->vm_col = BITS(i, 26, 26);
     op->vm = BITS(i, 25, 25);
     switch(type){
         case OPICC: srcC(op->m1, src2)   ; break;
@@ -74,11 +76,16 @@ static void decode_operand_rvmc(Decode *s, RV64MC_Operand* op, int type){
 void madd(Decode *s, int TYPE){
     RV64MC_Operand op;
     decode_operand_rvmc(s, &op, TYPE);
-    uint64_t mask = 0;
+    uint64_t mask = 0, mask_col = 0;
 
     switch(op.vm){
         case true: mask = cpu.p; break;
         case false: mask = 0xffffffffffffffff; break;
+    }
+
+    switch(op.vm_col){
+        case true: mask_col = cpu.colp; break;
+        case false: mask_col = 0xffffffffffffffff; break;
     }
 
     if(op.m0.x != op.m1.x) {assert(0); }
@@ -86,7 +93,8 @@ void madd(Decode *s, int TYPE){
     if(cpu.mvl.ylen > 1) assert(0);
     
     for(int idx = op.m0.x; idx < cpu.mvl.xlen + op.m0.x; idx++){
-        if(!op.vm || BITS(mask, idx, idx)){
+        if(!op.vm_col || BITS(mask_col, idx, idx)){
+            /*TODO: 这里好像可以删掉 !op.vm_col*/
             switch(cpu.mctype){
                 case MODE_MCTYPE_WIDTH_8: V(op.vdest)._64[idx] = (int8_t)(cpu.mc[op.m0.x + idx][op.m0.y] + cpu.mc[op.m1.x + idx][op.m1.y]); break;
                 case MODE_MCTYPE_WIDTH_16: V(op.vdest)._64[idx] = (int16_t)(cpu.mc[op.m0.x + idx][op.m0.y] + cpu.mc[op.m1.x + idx][op.m1.y]); break;
@@ -104,11 +112,16 @@ void madd(Decode *s, int TYPE){
 void msub(Decode *s, int TYPE){
     RV64MC_Operand op;
     decode_operand_rvmc(s, &op, TYPE);
-    uint64_t mask = 0;
+    uint64_t mask = 0, mask_col = 0;
 
     switch(op.vm){
         case true: mask = cpu.p; break;
         case false: mask = 0xffffffffffffffff; break;
+    }
+
+    switch(op.vm_col){
+        case true: mask_col = cpu.colp; break;
+        case false: mask_col = 0xffffffffffffffff; break;
     }
 
     if(op.m0.x != op.m1.x) {assert(0); }
@@ -116,7 +129,7 @@ void msub(Decode *s, int TYPE){
     if(cpu.mvl.ylen > 1) assert(0);
     
     for(int idx = op.m0.x; idx < cpu.mvl.xlen + op.m0.x; idx++){
-        if(!op.vm || BITS(mask, idx, idx)){
+        if(!op.vm_col || BITS(mask_col, idx, idx)){
             switch(cpu.mctype){
                 case MODE_MCTYPE_WIDTH_8: V(op.vdest)._64[idx] = (int8_t)(cpu.mc[op.m0.x + idx][op.m0.y] - cpu.mc[op.m1.x + idx][op.m1.y]); break;
                 case MODE_MCTYPE_WIDTH_16: V(op.vdest)._64[idx] = (int16_t)(cpu.mc[op.m0.x + idx][op.m0.y] - cpu.mc[op.m1.x + idx][op.m1.y]); break;
@@ -135,10 +148,16 @@ void msub(Decode *s, int TYPE){
 void mdot(Decode *s, int TYPE){
     RV64MC_Operand op;
     decode_operand_rvmc(s, &op, TYPE);
-    uint64_t mask = 0;
+
+    uint64_t mask = 0, mask_col = 0;
     switch(op.vm){
         case true: mask = cpu.p; break;
         case false: mask = 0xffffffffffffffff; break;
+    }
+
+    switch(op.vm_col){
+        case true: mask_col = cpu.colp; break;
+        case false: mask_col = 0xffffffffffffffff; break;
     }
 
     if(op.m0.x + cpu.mvl.xlen > MCLEN) assert(0);
@@ -147,9 +166,10 @@ void mdot(Decode *s, int TYPE){
     uint64_t tmp = 0;
 
     for(int idx = op.m0.x; idx < cpu.mvl.xlen + op.m0.x; idx++){
-        if(!op.vm || BITS(mask, idx, idx)){
+        if(!op.vm_col || BITS(mask_col, idx, idx)){
             V(op.vdest)._64[idx] = 0;
             for(int idy = op.m0.y; idy < cpu.mvl.ylen + op.m0.y; idy++){
+                if(!op.vm || BITS(mask, idy, idy));
                 switch(TYPE){
                     case OPICV: tmp = V(op.vsrc2)._64[idx]; break;
                     case OPICX: tmp = op.rs2              ; break;
@@ -213,11 +233,16 @@ void mld(Decode* s, int TYPE){
 void mewmul(Decode *s, int type){
     RV64MC_Operand op;
     decode_operand_rvmc(s, &op, type);
-    uint64_t mask = 0; 
+    uint64_t mask = 0, mask_col = 0; 
     switch(op.vm){
         case true: mask = cpu.p; break;
         case false: mask = 0xffffffffffffffff; break;
     }
+    switch(op.vm_col){
+        case true: mask_col = cpu.colp; break;
+        case false: mask_col = 0xffffffffffffffff; break;
+    }
+    
     if(op.m0.x + cpu.mvl.xlen > MCLEN) assert(0);
     if(op.m0.y + cpu.mvl.ylen > MCLEN) assert(0);
     if(cpu.mvl.ylen > 1) assert(0);
@@ -228,7 +253,7 @@ void mewmul(Decode *s, int type){
         case OPICI: tmp = op.imm              ; break;
     }
     for(int idx = op.m0.x; idx < op.m0.x + cpu.mvl.xlen; idx++){
-        if(!op.vm || BITS(mask, idx, idx)){
+        if(!op.vm_col || BITS(mask_col, idx, idx)){
             switch(cpu.mctype){
                 case MODE_MCTYPE_WIDTH_8 : V(op.vdest)._64[idx] = (int8_t)((int8_t)tmp * (int8_t)cpu.mc[idx][op.m0.y]); break;
                 case MODE_MCTYPE_WIDTH_16: V(op.vdest)._64[idx] = (int16_t)((int16_t)tmp * (int16_t)cpu.mc[idx][op.m0.y]); break;
