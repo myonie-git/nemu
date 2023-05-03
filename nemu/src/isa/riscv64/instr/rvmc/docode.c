@@ -5,6 +5,7 @@
 #include <cpu/inst.h>
 #include "decode.h"
 #include "opset.h"
+#include "inst.h"
 
 #define MODE_MCTYPE_WISTH_8 0
 #define MODE_MCTYPE_WIDTH_16 1
