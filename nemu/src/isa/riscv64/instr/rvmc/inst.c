@@ -172,7 +172,7 @@ void mdot(Decode *s, int TYPE){
             for(int idy = op.m0.y; idy < cpu.mvl.ylen + op.m0.y; idy++){
                 if(!op.vm || BITS(mask, idy, idy));
                 switch(TYPE){
-                    case OPICV: tmp = V(op.vsrc2)._64[idx]; assert(0); break;
+                    case OPICV: tmp = V(op.vsrc2)._64[idx]; break;
                     case OPICX: tmp = op.rs2              ; break;
                     case OPICI: tmp = op.imm              ; break;
                 }
@@ -230,7 +230,7 @@ void mld(Decode* s, int TYPE){
             
             }
         }
-        printf("cpu.mc[%ld][%d]: %d\n", op.m0.x, idy, (int8_t)cpu.mc[op.m0.x][idy]);
+        //printf("cpu.mc[%ld][%d]: %d\n", op.m0.x, idy, (int8_t)cpu.mc[op.m0.x][idy]);
     }
 
 
