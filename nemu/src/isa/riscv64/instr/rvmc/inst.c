@@ -186,7 +186,7 @@ void mdot(Decode *s, int TYPE){
                     case MODE_UNSIGNED_MCTYPE_WIDTH_32: V(op.vdest)._64[idx] += (uint32_t)((uint32_t)cpu.mc[idx][idy] * (uint32_t)tmp); break;
                     case MODE_UNSIGNED_MCTYPE_WIDTH_64: V(op.vdest)._64[idx] += (uint64_t)((uint64_t)cpu.mc[idx][idy] * (uint64_t)tmp); break;
                 }
-                printf("mc: %d, tmp: %d, res: %d\n", cpu.mc[idx][idy], tmp, V(op.vdest)._64[idx]);
+                printf("idx: %d, mc: %d, tmp: %d, res: %d\n",idx, cpu.mc[idx][idy], tmp, V(op.vdest)._64[idx]);
             }
             assert(0);
         }
