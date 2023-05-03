@@ -188,6 +188,7 @@ void mdot(Decode *s, int TYPE){
                 }
                 printf("mc: %d, tmp: %d, res: %d\n", cpu.mc[idx][idy], tmp, V(op.vdest)._64[idx]);
             }
+            assert(0);
         }
     }
 }
