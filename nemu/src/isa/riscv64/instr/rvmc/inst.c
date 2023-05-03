@@ -194,8 +194,8 @@ void mdot(Decode *s, int TYPE){
 
 
 void mld(Decode* s, int TYPE){
-    printf("mld\n");
-    assert(0);
+    //printf("mld\n");
+    //assert(0);
     RV64MC_Operand op;
     decode_operand_rvmc(s, &op, TYPE);
     uint64_t mask = 0;
