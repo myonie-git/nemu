@@ -149,7 +149,7 @@ void vsd(Decode *s){
                 case WIDTH_32: Mw(src1 + offset, 4, V(dest)._32[idx * 2]); break;
                 case WIDTH_64: Mw(src1 + offset, 8, V(dest)._64[idx]); break;
             }
-            printf("MLD: idx: %d, res: %ld\n", idx, V(dest)._64[idx]);
+            //printf("VSD: idx: %d, res: %ld\n", idx, V(dest)._64[idx]);
         }
 
         /*TODO: 无符号的导入*/
@@ -160,7 +160,7 @@ void vsd(Decode *s){
         offset += len * stride ;
     }
     //printf("len is: %d\n strides is: %d\n", len, stride);
-
+    
     return;
 }
 
