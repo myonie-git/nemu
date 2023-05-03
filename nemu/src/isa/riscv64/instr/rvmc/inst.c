@@ -218,8 +218,8 @@ void mld(Decode* s, int TYPE){
                 case OPICI: tmp = op.imm              ; break;
             }
             switch(cpu.mctype){
-                case MODE_MCTYPE_WIDTH_8: cpu.mc[op.m0.x][idy] = (int8_t)tmp + R(op.vdest); break;
-                case MODE_MCTYPE_WIDTH_16: cpu.mc[op.m0.x][idy] = (int16_t)tmp + R(op.vdest); break;
+                case MODE_MCTYPE_WIDTH_8: cpu.mc[op.m0.x][idy] = (word_t)((int8_t)tmp) + R(op.vdest); break;
+                case MODE_MCTYPE_WIDTH_16: cpu.mc[op.m0.x][idy] = (word_t)((int16_t)tmp) + R(op.vdest); break;
                 case MODE_MCTYPE_WIDTH_32: cpu.mc[op.m0.x][idy] = (int32_t)tmp + R(op.vdest); break;
                 case MODE_MCTYPE_WIDTH_64: cpu.mc[op.m0.x][idy] = (int64_t)tmp + R(op.vdest); break;
                 case MODE_UNSIGNED_MCTYPE_WIDTH_8: cpu.mc[op.m0.x][idy] = (uint8_t)tmp + R(op.vdest); break;
