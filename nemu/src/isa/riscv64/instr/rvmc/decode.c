@@ -3,14 +3,18 @@
 #include <cpu/ifetch.h>
 #include <cpu/decode.h>
 #include <cpu/inst.h>
+#include "inst.h"
 #include "decode.h"
 #include "opset.h"
-#include "inst.h"
 
 #define MODE_MCTYPE_WISTH_8 0
 #define MODE_MCTYPE_WIDTH_16 1
 #define MODE_MCTYPE_WIDTH_32 2 
 #define MODE_MCTYPE_WIDTH_64 3
+#define MODE_UNSIGNED_MCTYPE_WIDTH_8 4
+#define MODE_UNSIGNED_MCTYPE_WIDTH_16 5
+#define MODE_UNSIGNED_MCTYPE_WIDTH_32 6
+#define MODE_UNSIGNED_MCTYPE_WIDTH_64 7
 
 #define OPICC 0
 #define OPFCC 1
