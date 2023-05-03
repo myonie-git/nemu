@@ -254,6 +254,7 @@ void mewmul(Decode *s, int TYPE){
     if(op.m0.y + cpu.mvl.ylen > MCLEN) assert(0);
     if(cpu.mvl.ylen > 1) assert(0);
     uint64_t tmp = 0;
+    printf("op.vsrc2: %d", op.vsrc2);
     switch(TYPE){
         case OPICV: tmp = V(op.vsrc2)._64[op.m0.y]; break;
         case OPICX: tmp = op.rs2              ; break;
