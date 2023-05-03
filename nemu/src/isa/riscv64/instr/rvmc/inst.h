@@ -8,4 +8,5 @@ void msub(Decode *s, int TYPE);
 void mdot(Decode *s, int TYPE);
 void mld(Decode* s, int TYPE);
 void mewmul(Decode *s, int TYPE);
+
 #endif
