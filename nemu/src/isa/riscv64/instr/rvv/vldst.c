@@ -147,7 +147,7 @@ void vsd(Decode *s){
                 case WIDTH_8:  Mw(src1 + offset, 1, V(dest)._8[idx * 8]); break;
                 case WIDTH_16: Mw(src1 + offset, 2, V(dest)._16[idx * 4]); break;
                 case WIDTH_32: Mw(src1 + offset, 4, V(dest)._32[idx * 2]); break;
-                case WIDTH_64: Mw(src1 + offset, 8, V(dest)._64[idx]);assert(0); break;
+                case WIDTH_64: Mw(src1 + offset, 8, V(dest)._64[idx]); break;
             }
             //printf("VSD: idx: %d, res: %ld\n", idx, V(dest)._64[idx]);
         }
