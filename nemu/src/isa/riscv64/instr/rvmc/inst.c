@@ -4,6 +4,7 @@
 #include <cpu/decode.h>
 #include <cpu/inst.h>
 #include "decode.h"
+#include "inst.h"
 
 #define MODE_MCTYPE_WIDTH_8 0
 #define MODE_MCTYPE_WIDTH_16 1
