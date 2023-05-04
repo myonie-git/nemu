@@ -230,7 +230,7 @@ void mld(Decode* s, int TYPE){
             
             }
         }
-        //printf("cpu.mc[%ld][%d]: %d\n", op.m0.x, idy, (int8_t)cpu.mc[op.m0.x][idy]);
+        printf("cpu.mc[%ld][%d]: %d\n", op.m0.x, idy, (int8_t)cpu.mc[op.m0.x][idy]);
     }
 
 
